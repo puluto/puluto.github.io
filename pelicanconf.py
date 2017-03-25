@@ -21,8 +21,6 @@ GOOGLE_ANALYTICS = "UA-63906522-1"
 
 PATH = 'content'
 LINKS = (('Pelican', 'http://getpelican.com/'),
-         ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
 	)
 SOCIAL = (('GITHUB', 'https://github.com/puluto'),
           ('微博', 'http://weibo.com/u/1871671127'),)

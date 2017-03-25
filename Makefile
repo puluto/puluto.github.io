@@ -1,4 +1,4 @@
-ENV?=~/venv/pelican/bin
+ENV?=../blog_env/bin
 PY?=$(ENV)/python
 PELICAN?=$(ENV)/pelican
 PELICANOPTS=
