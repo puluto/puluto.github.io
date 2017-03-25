@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="http://puluto.github.io/static/custom.css" rel="stylesheet">
+
+    <link href="http://puluto.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Thinking Atom">
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Puluto" />
+<meta name="description" content="升级内核到3.8以上 rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org rpm -ivh http://www.elrepo.org/elrepo-release-6-5.el6.elrepo.noarch.rpm #安装3.10长期支持内核kernel-lt (lt=long-term) yum --enablerepo=elrepo-kernel install kernel-lt -y #或者安装主线kernel-ml (ml=mainline) yum --enablerepo=elrepo-kernel install kernel-ml -y …" />
+<meta name="keywords" content="linux, docker, 命令">
+<meta property="og:site_name" content="Thinking"/>
+<meta property="og:title" content="基于Centos6安装docker swarm集群"/>
+<meta property="og:description" content="升级内核到3.8以上 rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org rpm -ivh http://www.elrepo.org/elrepo-release-6-5.el6.elrepo.noarch.rpm #安装3.10长期支持内核kernel-lt (lt=long-term) yum --enablerepo=elrepo-kernel install kernel-lt -y #或者安装主线kernel-ml (ml=mainline) yum --enablerepo=elrepo-kernel install kernel-ml -y …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://puluto.github.io/ji-yu-centos6an-zhuang-docker-swarmji-qun.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-12-09 18:52:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://puluto.github.io/author/puluto.html">
+<meta property="article:section" content="容器技术"/>
+<meta property="article:tag" content="linux"/>
+<meta property="article:tag" content="docker"/>
+<meta property="article:tag" content="命令"/>
+<meta property="og:image" content="">
+
+  <title>Thinking &ndash; 基于Centos6安装docker swarm集群</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://puluto.github.io">
+        <img src="http://puluto.github.io/theme/img/profile.png" alt="Puluto" title="Puluto">
+      </a>
+      <h1><a href="http://puluto.github.io">Puluto</a></h1>
+
+<p>更新很慢的博客，关于自己研究的一些东西</p>
+      <nav>
+        <ul class="list">
+          <li><a href="http://puluto.github.io/pages/about-me.html#about-me">About me</a></li>
+
+          <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+          <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+          <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-GITHUB" href="https://github.com/puluto" target="_blank"><i class="fa fa-GITHUB"></i></a></li>
+        <li><a class="sc-微博" href="http://weibo.com/u/1871671127" target="_blank"><i class="fa fa-微博"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="http://puluto.github.io">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="http://puluto.github.io/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="ji-yu-centos6an-zhuang-docker-swarmji-qun">基于Centos6安装docker swarm集群</h1>
+    <p>
+          Posted on 2015-12-09(三) in <a href="http://puluto.github.io/category/rong-qi-ji-zhu.html">容器技术</a>
+
+
+        &#8226; 2 min read
+    </p>
+  </header>
+
+
+  <div>
+    <h3>升级内核到3.8以上</h3>
+<div class="highlight"><pre><span></span><span class="n">rpm</span> <span class="o">--</span><span class="kn">import</span> <span class="nn">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">elrepo</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">RPM</span><span class="o">-</span><span class="n">GPG</span><span class="o">-</span><span class="n">KEY</span><span class="o">-</span><span class="n">elrepo</span><span class="o">.</span><span class="n">org</span>
+
+<span class="n">rpm</span> <span class="o">-</span><span class="n">ivh</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">elrepo</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">elrepo</span><span class="o">-</span><span class="n">release</span><span class="o">-</span><span class="mi">6</span><span class="o">-</span><span class="mf">5.</span><span class="n">el6</span><span class="o">.</span><span class="n">elrepo</span><span class="o">.</span><span class="n">noarch</span><span class="o">.</span><span class="n">rpm</span>
+
+<span class="c1">#安装3.10长期支持内核kernel-lt (lt=long-term)</span>
+<span class="n">yum</span> <span class="o">--</span><span class="n">enablerepo</span><span class="o">=</span><span class="n">elrepo</span><span class="o">-</span><span class="n">kernel</span> <span class="n">install</span> <span class="n">kernel</span><span class="o">-</span><span class="n">lt</span> <span class="o">-</span><span class="n">y</span>
+
+<span class="c1">#或者安装主线kernel-ml (ml=mainline)</span>
+<span class="n">yum</span> <span class="o">--</span><span class="n">enablerepo</span><span class="o">=</span><span class="n">elrepo</span><span class="o">-</span><span class="n">kernel</span> <span class="n">install</span> <span class="n">kernel</span><span class="o">-</span><span class="n">ml</span> <span class="o">-</span><span class="n">y</span>
+</pre></div>
+
+
+<h3>Install Docker Service.</h3>
+<div class="highlight"><pre><span></span>curl -sSL https://get.docker.com/ <span class="p">|</span> sh
+<span class="c1">#国内安装，daocloud加速</span>
+curl -sSL https://get.daocloud.io/docker <span class="p">|</span> sh
+<span class="c1">#检查安装结果</span>
+sudo service docker status
+</pre></div>
+
+
+<p>安装docker的更多内容请参见: <a href="http://docs.docker.com/engine/installation/">Docker官方安装文档</a></p>
+<h3>修改docker配置</h3>
+<div class="highlight"><pre><span></span><span class="c1">#默认情况下docker守护进程是不会绑定tcp端口的，使用swarm需要开启tcp端口</span>
+&gt; vim /etc/sysconfig/docker
+<span class="c1">#默认配置</span>
+<span class="nv">other_args</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="c1">#修改后的配置</span>
+<span class="nv">other_args</span><span class="o">=</span><span class="s2">&quot;-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock&quot;</span>
+&gt; sudo service docker restart
+<span class="c1">#检查2375端口是否存在</span>
+&gt; netstat -nltp ｜ grep <span class="m">2375</span>
+</pre></div>
+
+
+<h3>配置swarm</h3>
+<p>Swarm支持多种发现节点的模式，在此介绍本地发现(hosted discovery service)和consul发现两种模式</p>
+<h4>本地发现模式</h4>
+<p>本地模式的原理是提交这个token到docker公司的服务器，然后运行swarm时去查询docker公司的服务器，
+因为众所周知的原因，连接docker hub都很慢，所以这种方式不稳定，使用也不够灵活，只适用于测试以
+及体验swarm的功能，当然好处是简单，不用引入其他技术。</p>
+<div class="highlight"><pre><span></span><span class="c1">#执行swarm获得一个机群token，后续节点的加入均需要这个token</span>
+&gt; sudo docker run swarm create
+be1d6ac91667632d6635ee53b1f8caed
+<span class="c1">#在每台需要加入同一swarm机群的节点上运行下面的命令</span>
+&gt; docker run -d swarm join --addr<span class="o">=</span>&lt;swarm_node_ip:2375&gt; token://be1d6ac91667632d6635ee53b1f8caed
+<span class="c1">#之后在任意一台节点上运行swarm的管理节点</span>
+&gt; docker run -d -p <span class="m">2376</span>:2375 swarm manage token://be1d6ac91667632d6635ee53b1f8caed
+<span class="c1">#执行docker的查询命令获得以下信息 </span>
+&gt; docker -H tcp://&lt;swarm_manage_ip:2376&gt; info
+
+Containers: <span class="m">4</span>
+Images: <span class="m">3</span>
+Role: primary
+Strategy: spread
+Filters: health, port, dependency, affinity, constraint
+Nodes: <span class="m">2</span>
+ dh1: &lt;swarm_node1_ip:2375&gt;
+  └ Containers: <span class="m">2</span>
+  └ Reserved CPUs: <span class="m">0</span> / <span class="m">4</span>
+  └ Reserved Memory: <span class="m">0</span> B / <span class="m">4</span>.061 GiB
+  └ Labels: <span class="nv">executiondriver</span><span class="o">=</span>native-0.2, <span class="nv">kernelversion</span><span class="o">=</span><span class="m">3</span>.10.93-1.el6.elrepo.x86_64, <span class="nv">operatingsystem</span><span class="o">=</span>&lt;unknown&gt;, <span class="nv">storagedriver</span><span class="o">=</span>devicemapper
+ dh2: &lt;swarm_node2_ip:2375&gt;
+  └ Containers: <span class="m">2</span>
+  └ Reserved CPUs: <span class="m">0</span> / <span class="m">4</span>
+  └ Reserved Memory: <span class="m">0</span> B / <span class="m">4</span>.061 GiB
+  └ Labels: <span class="nv">executiondriver</span><span class="o">=</span>native-0.2, <span class="nv">kernelversion</span><span class="o">=</span><span class="m">3</span>.10.93-1.el6.elrepo.x86_64, <span class="nv">operatingsystem</span><span class="o">=</span>&lt;unknown&gt;, <span class="nv">storagedriver</span><span class="o">=</span>devicemapper
+CPUs: <span class="m">8</span>
+Total Memory: <span class="m">8</span>.121 GiB
+Name: ca539e6846b8
+</pre></div>
+
+
+<p>更多信息请参见 <a href="[https://docs.docker.com/v1.5/swarm/discovery/#using-the-hosted-discovery-service">Swarm官方文档</a></p>
+<h4>Consul发现模式配置</h4>
+<p>此文档为了方便统一管理使用docker方式安装Consul，其他方式请参见 <a href="https://www.consul.io/docs/guides/index.html">Consul官方文档</a></p>
+<div class="highlight"><pre><span></span><span class="c1">#运行consul镜像，因为consul是关键服务而且很多地方可以用到网络使用host模式，直接端口绑定到主机</span>
+<span class="c1">#-bootstrap表示初始化一个consul机群，ui参数可以启动consul自带的webui</span>
+&gt; docker run --net<span class="o">=</span>host -P -d --name<span class="o">=</span>consul-1 progrium/consul -server -bootstrap -ui-dir /ui
+<span class="c1">#启动更多的consul节点，与zookeeper和etcd类似，此类服务都应该启动单数个节点便于仲裁</span>
+&gt; docker run --net<span class="o">=</span>host -P -d --name<span class="o">=</span>consul-2 progrium/consul -server -join &lt;first_node_ip&gt;
+&gt; docker run --net<span class="o">=</span>host -P -d --name<span class="o">=</span>consul-3 progrium/consul -server -join &lt;first_node_ip&gt;
+<span class="c1">#使用consul启动swarm集群</span>
+&gt; docker run -d swarm join --addr<span class="o">=</span>&lt;swarm_node1_ip:2375&gt; consul://&lt;consul_node_ip:8500&gt;/swarm
+<span class="c1">#启动第二个swarm节点，启动更多操作方式完全一样</span>
+&gt; docker run -d swarm join --addr<span class="o">=</span>&lt;swarm_node2_ip:2375&gt; consul://&lt;consul_node_ip:8500&gt;/swarm
+<span class="c1">#启动管理节点</span>
+&gt; docker run -d -p <span class="m">2376</span>:2375 swarm manage consul://&lt;consul_node_ip:8500&gt;/swarm
+&gt; docker -H tcp://&lt;swarm_manage_ip:2376&gt; info
+
+Containers: <span class="m">5</span>
+Images: <span class="m">4</span>
+Role: primary
+Strategy: spread
+Filters: health, port, dependency, affinity, constraint
+Nodes: <span class="m">2</span>
+ dh1: &lt;swarm_node1_ip:2375&gt;
+  └ Containers: <span class="m">2</span>
+  └ Reserved CPUs: <span class="m">0</span> / <span class="m">4</span>
+  └ Reserved Memory: <span class="m">0</span> B / <span class="m">4</span>.061 GiB
+  └ Labels: <span class="nv">executiondriver</span><span class="o">=</span>native-0.2, <span class="nv">kernelversion</span><span class="o">=</span><span class="m">3</span>.10.93-1.el6.elrepo.x86_64......
+ dh2: &lt;swarm_node2_ip:2375&gt;
+  └ Containers: <span class="m">3</span>
+  └ Reserved CPUs: <span class="m">0</span> / <span class="m">4</span>
+  └ Reserved Memory: <span class="m">0</span> B / <span class="m">4</span>.061 GiB
+  └ Labels: <span class="nv">executiondriver</span><span class="o">=</span>native-0.2, <span class="nv">kernelversion</span><span class="o">=</span><span class="m">3</span>.10.93-1.el6.elrepo.x86_64......
+CPUs: <span class="m">8</span>
+Total Memory: <span class="m">8</span>.121 GiB
+Name: ca539e6846b8
+</pre></div>
+
+
+<h4>顺带配置一个Shipyard webui来管理docker</h4>
+<p>Shipyard本身自带一套安装swarm的流程，但是我们前面已经做过很多准备工作了所以不需要更多工作
+感兴趣的请参考 <a href="http://shipyard-project.com/docs/deploy/automated/">Shipyard官方文档</a>
+我们这里只需要安装Shipyard依赖的rethinkdb和他的webui</p>
+<div class="highlight"><pre><span></span><span class="c1">#通过docker安装rethinkdb</span>
+docker run -ti -d --restart<span class="o">=</span>always --name shipyard-rethinkdb rethinkdb
+<span class="c1">#安装webui，需要link到rethinkdb，也就是说这两个服务需要安装到同一个docker node.</span>
+docker run -ti -d --restart<span class="o">=</span>always --name shipyard-controller --link shipyard-rethinkdb:rethinkdb <span class="se">\</span>
+-p <span class="m">8080</span>:8080 shipyard/shipyard:latest server -d tcp://&lt;swarm_manage_ip:2376&gt;
+</pre></div>
+
+
+<h5>到现在这个部署流程已经完成的差不多了，更详细的内容请查看各个组件的官方文档，在使用某个开源产品时建议第一件事就是详细阅读官方文档。</h5>
+<h4>后记：</h4>
+<p>由于目前官方docker对rhel6系列支持有限，官方只支持rhel6系列上安装1.7版本，所以一些高级功能不能使用，所以建议使用ubuntu 14.04以上或者rhel7系列发行版进行安装，我们目前使用的是ubuntu14.04，前面的教程除了docker守护进程配置文件为/etc/default/docker与centos6不同以及ubuntu14.04不用安装额外内核支持，其他操作均一摸一样。</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="http://puluto.github.io/tag/linux.html">linux</a>
+      <a href="http://puluto.github.io/tag/docker.html">docker</a>
+      <a href="http://puluto.github.io/tag/ming-ling.html">命令</a>
+    </p>
+  </div>
+
+
+
+
+</article>
+
+    <footer>
+<p>
+  &copy; Puluto 2016 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63906522-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Thinking ",
+  "url" : "http://puluto.github.io",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>

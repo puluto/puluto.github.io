@@ -31,7 +31,7 @@
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://puluto.github.io"/>
 
-  <title>Thinking &ndash;     Categories
+  <title>Thinking &ndash;     Tag hotplug
 </title>
 
 </head>
@@ -77,20 +77,44 @@
 
     </nav>
 
-<article class="single">
+
+
+<article>
   <header>
-    <h1>    Categories
-</h1>
+    <h2><a href="http://puluto.github.io/linuxxia-scsici-pan-re-cha-ba.html#linuxxia-scsici-pan-re-cha-ba">Linux下SCSI磁盘热插拔</a></h2>
+    <p>
+          Posted on 2015-11-25(三) in <a href="http://puluto.github.io/category/linuxji-qiao.html">Linux技巧</a>
+
+
+
+        &#8226; 1 min read
+    </p>
   </header>
   <div>
-    <ul class="list">
-      <li><a href="http://puluto.github.io/category/linuxji-qiao.html">Linux技巧</a> (2)</li>
-      <li><a href="http://puluto.github.io/category/ren-wu-diao-du.html">任务调度</a> (1)</li>
-      <li><a href="http://puluto.github.io/category/rong-qi-ji-zhu.html">容器技术</a> (2)</li>
-      <li><a href="http://puluto.github.io/category/yun-wei-gong-ju.html">运维工具</a> (1)</li>
-    </ul>
+      <h3>ESXi5中对Linux热添加磁盘时发现不生效，下文为临时解决方案</h3>
+<p>转载：<a href="http://www.anrip.com/post/1295">技术写真 » Linux下SCSI磁盘热插拔</a></p>
+<p>维护服务器时，有可能需要热插拔硬盘，但是Linux好像并不买单，不会自动检测磁盘的装卸，为此热插拔后，我们需要通知Linux服务磁盘状态。</p>
+<h3>添加磁盘，其中 2 0 1 0 分别对应 HOST CHAN DEV LUN</h3>
+<div class="highlight"><pre><span></span>echo &quot;scsi add-single-device 2 0 1 0&quot; &gt; /proc/scsi/scsi
+</pre></div>
+
+
+<h3>查看磁盘</h3>
+<div class="highlight"><pre><span></span>&gt; cat /proc/scsi/scsi
+Attached devices:
+Host: scsi0 Channel: 00 Id: 00 Lun: 00
+Vendor: NECVMWar Model …</pre></div>
+      <br>
+      <a class="btn" href="http://puluto.github.io/linuxxia-scsici-pan-re-cha-ba.html#linuxxia-scsici-pan-re-cha-ba">    Continue reading
+</a>
   </div>
 </article>
+
+  <div class="pagination">
+  </div>
+
+
+
 
     <footer>
 <p>

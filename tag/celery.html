@@ -31,7 +31,7 @@
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://puluto.github.io"/>
 
-  <title>Thinking &ndash;     Categories
+  <title>Thinking &ndash;     Tag celery
 </title>
 
 </head>
@@ -77,20 +77,48 @@
 
     </nav>
 
-<article class="single">
+
+
+<article>
   <header>
-    <h1>    Categories
-</h1>
+    <h2><a href="http://puluto.github.io/celeryjian-jie.html#celeryjian-jie">Celery简介</a></h2>
+    <p>
+          Posted on 2015-01-03(六) in <a href="http://puluto.github.io/category/ren-wu-diao-du.html">任务调度</a>
+
+
+
+        &#8226; 1 min read
+    </p>
   </header>
   <div>
-    <ul class="list">
-      <li><a href="http://puluto.github.io/category/linuxji-qiao.html">Linux技巧</a> (2)</li>
-      <li><a href="http://puluto.github.io/category/ren-wu-diao-du.html">任务调度</a> (1)</li>
-      <li><a href="http://puluto.github.io/category/rong-qi-ji-zhu.html">容器技术</a> (2)</li>
-      <li><a href="http://puluto.github.io/category/yun-wei-gong-ju.html">运维工具</a> (1)</li>
-    </ul>
+      <p>Celery(芹菜)是一个异步任务队列/基于分布式消息传递的作业队列。</p>
+<p>Celery用于生产系统每天处理数以百万计的任务。</p>
+<p>Celery是用Python编写的，但该协议可以在任何语言实现。它也可以与其他语言通过webhooks实现。</p>
+<p>由于Celery 3.0系列对以前的系列进行了大量重构优化，现在开始使用就没必要研究旧版本了，所以此介绍以3.0.24的文档为基础。</p>
+<h3>Celery的工作结构</h3>
+<p>在使用Celery的时候要明白它的大致结构，Celery的结构非常简单，大致分为3个部分：</p>
+<ol>
+<li>worker部分负责任务的处理，即工作线程，在我的理解中工作线程就是你写的python代码，当然还包括python调用系统工具功能</li>
+<li>broker部分负责任务消息的分发以及任务结果的存储，这部分任务主要由中间数据存储系统完成，比如消息队列服务器RabbitMQ、redis、
+   Amazon SQS、MongoDB、IronMQ等或者关系型数据库，使用关系型数据库依赖sqlalchemy或者django的ORM</li>
+<li>Celery主类，进行任务最开始的指派与执行控制，他可以是单独的python脚本，也可以和其他程序结合，应用到django或者flask等
+   web框架里面以及你能想到的任何应用</li>
+</ol>
+<h3>Celery的安装</h3>
+<p>Celery只是一个python包，所以可以通过pip或者easy_install安装,除此之外还需要安装broker的系统，我使用的是redis，除了安装redis以外还需要安装celery-with-redis</p>
+<div class="highlight"><pre><span></span>pip install celery
+pip install celery-with-redis …</pre></div>
+      <br>
+      <a class="btn" href="http://puluto.github.io/celeryjian-jie.html#celeryjian-jie">    Continue reading
+</a>
   </div>
 </article>
+
+  <div class="pagination">
+  </div>
+
+
+
 
     <footer>
 <p>

@@ -31,7 +31,7 @@
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://puluto.github.io"/>
 
-  <title>Thinking &ndash;     Categories
+  <title>Thinking &ndash;     Category Linux技巧
 </title>
 
 </head>
@@ -77,20 +77,79 @@
 
     </nav>
 
-<article class="single">
+
+
+<article>
   <header>
-    <h1>    Categories
-</h1>
+    <h2><a href="http://puluto.github.io/ce-shi-wen-dang.html#ce-shi-wen-dang">测试文档</a></h2>
+    <p>
+          Posted on 2016-11-25(五) in <a href="http://puluto.github.io/category/linuxji-qiao.html">Linux技巧</a>
+
+
+
+        &#8226; 1 min read
+    </p>
   </header>
   <div>
-    <ul class="list">
-      <li><a href="http://puluto.github.io/category/linuxji-qiao.html">Linux技巧</a> (2)</li>
-      <li><a href="http://puluto.github.io/category/ren-wu-diao-du.html">任务调度</a> (1)</li>
-      <li><a href="http://puluto.github.io/category/rong-qi-ji-zhu.html">容器技术</a> (2)</li>
-      <li><a href="http://puluto.github.io/category/yun-wei-gong-ju.html">运维工具</a> (1)</li>
-    </ul>
+      <h3>单独获取当前目录名</h3>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="k">def</span> <span class="nf">name</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+
+<h3>WIN关闭一个进程</h3>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="k">def</span> <span class="nf">kill</span><span class="p">(</span><span class="n">pid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;kill function for Win32&quot;&quot;&quot;</span>
+    <span class="n">kernel32</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">windll</span><span class="o">.</span><span class="n">kernel32</span>
+    <span class="n">handle</span> <span class="o">=</span> <span class="n">kernel32</span><span class="o">.</span><span class="n">OpenProcess</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pid</span><span class="p">)</span>
+
+    <span class="c1">#使用termina函数结束进程</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">0</span> <span class="o">!=</span> <span class="n">kernel32</span><span class="o">.</span><span class="n">TerminateProcess</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</pre></div>
+      <br>
+      <a class="btn" href="http://puluto.github.io/ce-shi-wen-dang.html#ce-shi-wen-dang">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="http://puluto.github.io/linuxxia-scsici-pan-re-cha-ba.html#linuxxia-scsici-pan-re-cha-ba">Linux下SCSI磁盘热插拔</a></h2>
+    <p>
+          Posted on 2015-11-25(三) in <a href="http://puluto.github.io/category/linuxji-qiao.html">Linux技巧</a>
+
+
+
+        &#8226; 1 min read
+    </p>
+  </header>
+  <div>
+      <h3>ESXi5中对Linux热添加磁盘时发现不生效，下文为临时解决方案</h3>
+<p>转载：<a href="http://www.anrip.com/post/1295">技术写真 » Linux下SCSI磁盘热插拔</a></p>
+<p>维护服务器时，有可能需要热插拔硬盘，但是Linux好像并不买单，不会自动检测磁盘的装卸，为此热插拔后，我们需要通知Linux服务磁盘状态。</p>
+<h3>添加磁盘，其中 2 0 1 0 分别对应 HOST CHAN DEV LUN</h3>
+<div class="highlight"><pre><span></span>echo &quot;scsi add-single-device 2 0 1 0&quot; &gt; /proc/scsi/scsi
+</pre></div>
+
+
+<h3>查看磁盘</h3>
+<div class="highlight"><pre><span></span>&gt; cat /proc/scsi/scsi
+Attached devices:
+Host: scsi0 Channel: 00 Id: 00 Lun: 00
+Vendor: NECVMWar Model …</pre></div>
+      <br>
+      <a class="btn" href="http://puluto.github.io/linuxxia-scsici-pan-re-cha-ba.html#linuxxia-scsici-pan-re-cha-ba">    Continue reading
+</a>
   </div>
 </article>
+
+  <div class="pagination">
+  </div>
+
+
+
 
     <footer>
 <p>

@@ -1,5 +1,459 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Thinking</title><link href="http://puluto.github.io/" rel="alternate"></link><link href="http://puluto.github.io/feeds/all.atom.xml" rel="self"></link><id>http://puluto.github.io/</id><updated>2015-01-03T10:20:00+08:00</updated><entry><title>Saltstack入门</title><link href="http://puluto.github.io/saltstackru-men.html" rel="alternate"></link><published>2015-01-03T10:20:00+08:00</published><updated>2015-01-03T10:20:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2015-01-03:/saltstackru-men.html</id><summary type="html">&lt;div class="section" id="id1"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Thinking</title><link href="http://puluto.github.io/" rel="alternate"></link><link href="http://puluto.github.io/feeds/all.atom.xml" rel="self"></link><id>http://puluto.github.io/</id><updated>2016-11-25T18:52:00+08:00</updated><entry><title>测试文档</title><link href="http://puluto.github.io/ce-shi-wen-dang.html" rel="alternate"></link><published>2016-11-25T18:52:00+08:00</published><updated>2016-11-25T18:52:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2016-11-25:/ce-shi-wen-dang.html</id><summary type="html">&lt;h3&gt;单独获取当前目录名&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;name&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getcwd&lt;/span&gt;&lt;span class="p"&gt;())[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;WIN关闭一个进程&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;ctypes&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;kill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;kill function for Win32&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;kernel32&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ctypes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;windll&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;kernel32&lt;/span&gt;
+    &lt;span class="n"&gt;handle&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;kernel32&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;OpenProcess&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;#使用termina函数结束进程&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="n"&gt;kernel32&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TerminateProcess&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;h3&gt;单独获取当前目录名&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;name&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getcwd&lt;/span&gt;&lt;span class="p"&gt;())[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;WIN关闭一个进程&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;ctypes&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;kill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;kill function for Win32&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;kernel32&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ctypes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;windll&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;kernel32&lt;/span&gt;
+    &lt;span class="n"&gt;handle&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;kernel32&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;OpenProcess&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;#使用termina函数结束进程&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="n"&gt;kernel32&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TerminateProcess&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="python"></category></entry><entry><title>基于Centos6安装docker swarm集群</title><link href="http://puluto.github.io/ji-yu-centos6an-zhuang-docker-swarmji-qun.html" rel="alternate"></link><published>2015-12-09T18:52:00+08:00</published><updated>2015-12-09T18:52:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2015-12-09:/ji-yu-centos6an-zhuang-docker-swarmji-qun.html</id><summary type="html">&lt;h3&gt;升级内核到3.8以上&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;rpm&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;RPM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;GPG&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;KEY&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;
+
+&lt;span class="n"&gt;rpm&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ivh&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;release&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;5.&lt;/span&gt;&lt;span class="n"&gt;el6&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;noarch&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rpm&lt;/span&gt;
+
+&lt;span class="c1"&gt;#安装3.10长期支持内核kernel-lt (lt=long-term)&lt;/span&gt;
+&lt;span class="n"&gt;yum&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;enablerepo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lt&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;
+
+&lt;span class="c1"&gt;#或者安装主线kernel-ml (ml=mainline)&lt;/span&gt;
+&lt;span class="n"&gt;yum&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;enablerepo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ml&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;y …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;h3&gt;升级内核到3.8以上&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;rpm&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;RPM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;GPG&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;KEY&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;
+
+&lt;span class="n"&gt;rpm&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ivh&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;release&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;5.&lt;/span&gt;&lt;span class="n"&gt;el6&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;noarch&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rpm&lt;/span&gt;
+
+&lt;span class="c1"&gt;#安装3.10长期支持内核kernel-lt (lt=long-term)&lt;/span&gt;
+&lt;span class="n"&gt;yum&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;enablerepo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lt&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;
+
+&lt;span class="c1"&gt;#或者安装主线kernel-ml (ml=mainline)&lt;/span&gt;
+&lt;span class="n"&gt;yum&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;enablerepo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ml&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Install Docker Service.&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -sSL https://get.docker.com/ &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;span class="c1"&gt;#国内安装，daocloud加速&lt;/span&gt;
+curl -sSL https://get.daocloud.io/docker &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;span class="c1"&gt;#检查安装结果&lt;/span&gt;
+sudo service docker status
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;安装docker的更多内容请参见: &lt;a href="http://docs.docker.com/engine/installation/"&gt;Docker官方安装文档&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;修改docker配置&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#默认情况下docker守护进程是不会绑定tcp端口的，使用swarm需要开启tcp端口&lt;/span&gt;
+&amp;gt; vim /etc/sysconfig/docker
+&lt;span class="c1"&gt;#默认配置&lt;/span&gt;
+&lt;span class="nv"&gt;other_args&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#修改后的配置&lt;/span&gt;
+&lt;span class="nv"&gt;other_args&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock&amp;quot;&lt;/span&gt;
+&amp;gt; sudo service docker restart
+&lt;span class="c1"&gt;#检查2375端口是否存在&lt;/span&gt;
+&amp;gt; netstat -nltp ｜ grep &lt;span class="m"&gt;2375&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;配置swarm&lt;/h3&gt;
+&lt;p&gt;Swarm支持多种发现节点的模式，在此介绍本地发现(hosted discovery service)和consul发现两种模式&lt;/p&gt;
+&lt;h4&gt;本地发现模式&lt;/h4&gt;
+&lt;p&gt;本地模式的原理是提交这个token到docker公司的服务器，然后运行swarm时去查询docker公司的服务器，
+因为众所周知的原因，连接docker hub都很慢，所以这种方式不稳定，使用也不够灵活，只适用于测试以
+及体验swarm的功能，当然好处是简单，不用引入其他技术。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#执行swarm获得一个机群token，后续节点的加入均需要这个token&lt;/span&gt;
+&amp;gt; sudo docker run swarm create
+be1d6ac91667632d6635ee53b1f8caed
+&lt;span class="c1"&gt;#在每台需要加入同一swarm机群的节点上运行下面的命令&lt;/span&gt;
+&amp;gt; docker run -d swarm join --addr&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;swarm_node_ip:2375&amp;gt; token://be1d6ac91667632d6635ee53b1f8caed
+&lt;span class="c1"&gt;#之后在任意一台节点上运行swarm的管理节点&lt;/span&gt;
+&amp;gt; docker run -d -p &lt;span class="m"&gt;2376&lt;/span&gt;:2375 swarm manage token://be1d6ac91667632d6635ee53b1f8caed
+&lt;span class="c1"&gt;#执行docker的查询命令获得以下信息 &lt;/span&gt;
+&amp;gt; docker -H tcp://&amp;lt;swarm_manage_ip:2376&amp;gt; info
+
+Containers: &lt;span class="m"&gt;4&lt;/span&gt;
+Images: &lt;span class="m"&gt;3&lt;/span&gt;
+Role: primary
+Strategy: spread
+Filters: health, port, dependency, affinity, constraint
+Nodes: &lt;span class="m"&gt;2&lt;/span&gt;
+ dh1: &amp;lt;swarm_node1_ip:2375&amp;gt;
+  └ Containers: &lt;span class="m"&gt;2&lt;/span&gt;
+  └ Reserved CPUs: &lt;span class="m"&gt;0&lt;/span&gt; / &lt;span class="m"&gt;4&lt;/span&gt;
+  └ Reserved Memory: &lt;span class="m"&gt;0&lt;/span&gt; B / &lt;span class="m"&gt;4&lt;/span&gt;.061 GiB
+  └ Labels: &lt;span class="nv"&gt;executiondriver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;native-0.2, &lt;span class="nv"&gt;kernelversion&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.10.93-1.el6.elrepo.x86_64, &lt;span class="nv"&gt;operatingsystem&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;unknown&amp;gt;, &lt;span class="nv"&gt;storagedriver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;devicemapper
+ dh2: &amp;lt;swarm_node2_ip:2375&amp;gt;
+  └ Containers: &lt;span class="m"&gt;2&lt;/span&gt;
+  └ Reserved CPUs: &lt;span class="m"&gt;0&lt;/span&gt; / &lt;span class="m"&gt;4&lt;/span&gt;
+  └ Reserved Memory: &lt;span class="m"&gt;0&lt;/span&gt; B / &lt;span class="m"&gt;4&lt;/span&gt;.061 GiB
+  └ Labels: &lt;span class="nv"&gt;executiondriver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;native-0.2, &lt;span class="nv"&gt;kernelversion&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.10.93-1.el6.elrepo.x86_64, &lt;span class="nv"&gt;operatingsystem&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;unknown&amp;gt;, &lt;span class="nv"&gt;storagedriver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;devicemapper
+CPUs: &lt;span class="m"&gt;8&lt;/span&gt;
+Total Memory: &lt;span class="m"&gt;8&lt;/span&gt;.121 GiB
+Name: ca539e6846b8
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;更多信息请参见 &lt;a href="[https://docs.docker.com/v1.5/swarm/discovery/#using-the-hosted-discovery-service"&gt;Swarm官方文档&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Consul发现模式配置&lt;/h4&gt;
+&lt;p&gt;此文档为了方便统一管理使用docker方式安装Consul，其他方式请参见 &lt;a href="https://www.consul.io/docs/guides/index.html"&gt;Consul官方文档&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#运行consul镜像，因为consul是关键服务而且很多地方可以用到网络使用host模式，直接端口绑定到主机&lt;/span&gt;
+&lt;span class="c1"&gt;#-bootstrap表示初始化一个consul机群，ui参数可以启动consul自带的webui&lt;/span&gt;
+&amp;gt; docker run --net&lt;span class="o"&gt;=&lt;/span&gt;host -P -d --name&lt;span class="o"&gt;=&lt;/span&gt;consul-1 progrium/consul -server -bootstrap -ui-dir /ui
+&lt;span class="c1"&gt;#启动更多的consul节点，与zookeeper和etcd类似，此类服务都应该启动单数个节点便于仲裁&lt;/span&gt;
+&amp;gt; docker run --net&lt;span class="o"&gt;=&lt;/span&gt;host -P -d --name&lt;span class="o"&gt;=&lt;/span&gt;consul-2 progrium/consul -server -join &amp;lt;first_node_ip&amp;gt;
+&amp;gt; docker run --net&lt;span class="o"&gt;=&lt;/span&gt;host -P -d --name&lt;span class="o"&gt;=&lt;/span&gt;consul-3 progrium/consul -server -join &amp;lt;first_node_ip&amp;gt;
+&lt;span class="c1"&gt;#使用consul启动swarm集群&lt;/span&gt;
+&amp;gt; docker run -d swarm join --addr&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;swarm_node1_ip:2375&amp;gt; consul://&amp;lt;consul_node_ip:8500&amp;gt;/swarm
+&lt;span class="c1"&gt;#启动第二个swarm节点，启动更多操作方式完全一样&lt;/span&gt;
+&amp;gt; docker run -d swarm join --addr&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;swarm_node2_ip:2375&amp;gt; consul://&amp;lt;consul_node_ip:8500&amp;gt;/swarm
+&lt;span class="c1"&gt;#启动管理节点&lt;/span&gt;
+&amp;gt; docker run -d -p &lt;span class="m"&gt;2376&lt;/span&gt;:2375 swarm manage consul://&amp;lt;consul_node_ip:8500&amp;gt;/swarm
+&amp;gt; docker -H tcp://&amp;lt;swarm_manage_ip:2376&amp;gt; info
+
+Containers: &lt;span class="m"&gt;5&lt;/span&gt;
+Images: &lt;span class="m"&gt;4&lt;/span&gt;
+Role: primary
+Strategy: spread
+Filters: health, port, dependency, affinity, constraint
+Nodes: &lt;span class="m"&gt;2&lt;/span&gt;
+ dh1: &amp;lt;swarm_node1_ip:2375&amp;gt;
+  └ Containers: &lt;span class="m"&gt;2&lt;/span&gt;
+  └ Reserved CPUs: &lt;span class="m"&gt;0&lt;/span&gt; / &lt;span class="m"&gt;4&lt;/span&gt;
+  └ Reserved Memory: &lt;span class="m"&gt;0&lt;/span&gt; B / &lt;span class="m"&gt;4&lt;/span&gt;.061 GiB
+  └ Labels: &lt;span class="nv"&gt;executiondriver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;native-0.2, &lt;span class="nv"&gt;kernelversion&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.10.93-1.el6.elrepo.x86_64......
+ dh2: &amp;lt;swarm_node2_ip:2375&amp;gt;
+  └ Containers: &lt;span class="m"&gt;3&lt;/span&gt;
+  └ Reserved CPUs: &lt;span class="m"&gt;0&lt;/span&gt; / &lt;span class="m"&gt;4&lt;/span&gt;
+  └ Reserved Memory: &lt;span class="m"&gt;0&lt;/span&gt; B / &lt;span class="m"&gt;4&lt;/span&gt;.061 GiB
+  └ Labels: &lt;span class="nv"&gt;executiondriver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;native-0.2, &lt;span class="nv"&gt;kernelversion&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.10.93-1.el6.elrepo.x86_64......
+CPUs: &lt;span class="m"&gt;8&lt;/span&gt;
+Total Memory: &lt;span class="m"&gt;8&lt;/span&gt;.121 GiB
+Name: ca539e6846b8
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;顺带配置一个Shipyard webui来管理docker&lt;/h4&gt;
+&lt;p&gt;Shipyard本身自带一套安装swarm的流程，但是我们前面已经做过很多准备工作了所以不需要更多工作
+感兴趣的请参考 &lt;a href="http://shipyard-project.com/docs/deploy/automated/"&gt;Shipyard官方文档&lt;/a&gt;
+我们这里只需要安装Shipyard依赖的rethinkdb和他的webui&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#通过docker安装rethinkdb&lt;/span&gt;
+docker run -ti -d --restart&lt;span class="o"&gt;=&lt;/span&gt;always --name shipyard-rethinkdb rethinkdb
+&lt;span class="c1"&gt;#安装webui，需要link到rethinkdb，也就是说这两个服务需要安装到同一个docker node.&lt;/span&gt;
+docker run -ti -d --restart&lt;span class="o"&gt;=&lt;/span&gt;always --name shipyard-controller --link shipyard-rethinkdb:rethinkdb &lt;span class="se"&gt;\&lt;/span&gt;
+-p &lt;span class="m"&gt;8080&lt;/span&gt;:8080 shipyard/shipyard:latest server -d tcp://&amp;lt;swarm_manage_ip:2376&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;到现在这个部署流程已经完成的差不多了，更详细的内容请查看各个组件的官方文档，在使用某个开源产品时建议第一件事就是详细阅读官方文档。&lt;/h5&gt;
+&lt;h4&gt;后记：&lt;/h4&gt;
+&lt;p&gt;由于目前官方docker对rhel6系列支持有限，官方只支持rhel6系列上安装1.7版本，所以一些高级功能不能使用，所以建议使用ubuntu 14.04以上或者rhel7系列发行版进行安装，我们目前使用的是ubuntu14.04，前面的教程除了docker守护进程配置文件为/etc/default/docker与centos6不同以及ubuntu14.04不用安装额外内核支持，其他操作均一摸一样。&lt;/p&gt;</content><category term="linux"></category><category term="docker"></category><category term="命令"></category></entry><entry><title>Docker常用命令</title><link href="http://puluto.github.io/dockerchang-yong-ming-ling.html" rel="alternate"></link><published>2015-11-26T18:52:00+08:00</published><updated>2015-11-26T18:52:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2015-11-26:/dockerchang-yong-ming-ling.html</id><summary type="html">&lt;h4&gt;容器安装操作(Linux内核需大于3.10)&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#原始安装&lt;/span&gt;
+curl -sSL https://get.docker.com/ &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;span class="c1"&gt;#国内安装，daocloud加速&lt;/span&gt;
+curl -sSL https://get.daocloud.io/docker &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;span class="c1"&gt;#检查安装结果&lt;/span&gt;
+sudo service docker status
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;安装docker的更多内容请参见: &lt;a href="http://docs.docker.com/engine/installation/"&gt;Docker官方安装文档&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;容器运行操作&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#列出正在运行的容器&lt;/span&gt;
+docker ps
+
+&lt;span class="c1"&gt;#列出所有的容器&lt;/span&gt;
+docker ps -a
+
+&lt;span class="c1"&gt;#下载一个镜像到本地，并不运行&lt;/span&gt;
+docker pull ubuntu
+
+&lt;span class="c1"&gt;#运行一个容器，如果镜像不存在会自动进行pull&lt;/span&gt;
+docker run -i -t ubuntu /bin/bash …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;h4&gt;容器安装操作(Linux内核需大于3.10)&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#原始安装&lt;/span&gt;
+curl -sSL https://get.docker.com/ &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;span class="c1"&gt;#国内安装，daocloud加速&lt;/span&gt;
+curl -sSL https://get.daocloud.io/docker &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;span class="c1"&gt;#检查安装结果&lt;/span&gt;
+sudo service docker status
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;安装docker的更多内容请参见: &lt;a href="http://docs.docker.com/engine/installation/"&gt;Docker官方安装文档&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;容器运行操作&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#列出正在运行的容器&lt;/span&gt;
+docker ps
+
+&lt;span class="c1"&gt;#列出所有的容器&lt;/span&gt;
+docker ps -a
+
+&lt;span class="c1"&gt;#下载一个镜像到本地，并不运行&lt;/span&gt;
+docker pull ubuntu
+
+&lt;span class="c1"&gt;#运行一个容器，如果镜像不存在会自动进行pull&lt;/span&gt;
+docker run -i -t ubuntu /bin/bash
+
+&lt;span class="c1"&gt;#运行容器并做端口转发至主机的3306，-e传入环境变量设置mysql的root密码&lt;/span&gt;
+docker run --name test-mysql -e &lt;span class="nv"&gt;MYSQL_ROOT_PASSWORD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;my-secret-pw -d -p &lt;span class="m"&gt;3306&lt;/span&gt;:3306 daocloud.io/library/mysql:latest
+&lt;span class="c1"&gt;#运行一个tinyproxy代理&lt;/span&gt;
+docker run -i -t -p :8888 dannydirect/tinyproxy:latest ANY
+
+&lt;span class="c1"&gt;#以bash进入到运行中的容器&lt;/span&gt;
+sudo docker &lt;span class="nb"&gt;exec&lt;/span&gt; -it &amp;lt;CONTAINER ID&amp;gt; /bin/bash
+
+&lt;span class="c1"&gt;#删除所有容器&lt;/span&gt;
+docker rm &lt;span class="sb"&gt;`&lt;/span&gt;docker ps -a -q&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;容器镜像操作&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#列出所有镜像(images)&lt;/span&gt;
+docker images
+
+&lt;span class="c1"&gt;#通过Dockerfile构建一个映像文件，Dockerfile的每一行指令都会创建一个临时的Container&lt;/span&gt;
+&lt;span class="c1"&gt;#–rm 选项是告诉Docker在构建完成后删除临时的Container，&lt;/span&gt;
+docker build --rm&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt; -t mytest/tinyproxy .
+
+&lt;span class="c1"&gt;#提交你的变更，并且把容器保存成镜像，命名为 mynewimage.&amp;lt;CONTAINER ID&amp;gt;为容器的ID.&lt;/span&gt;
+docker commit &amp;lt;CONTAINER ID&amp;gt; mynewimage
+
+&lt;span class="c1"&gt;#把 mynewimage 镜像保存成 tar 文件&lt;/span&gt;
+docker save mynewimage &lt;span class="p"&gt;|&lt;/span&gt; bzip2 -9 -c &amp;gt; /home/mynewimage.tar.bz2
+
+&lt;span class="c1"&gt;#加载 mynewimage 镜像&lt;/span&gt;
+bzip2 -d -c &amp;lt; /home/mynewimage.tar.bz2 &lt;span class="p"&gt;|&lt;/span&gt; docker load
+
+&lt;span class="c1"&gt;#删除镜像&lt;/span&gt;
+docker rmi &lt;span class="o"&gt;[&lt;/span&gt;image-id&lt;span class="o"&gt;]&lt;/span&gt;
+
+&lt;span class="c1"&gt;#导出正在运行的容器为Image&lt;/span&gt;
+docker &lt;span class="nb"&gt;export&lt;/span&gt; &amp;lt;CONTAINER ID&amp;gt; &amp;gt; /home/export.tar
+
+&lt;span class="c1"&gt;#导入Image镜像&lt;/span&gt;
+cat /home/export.tar &lt;span class="p"&gt;|&lt;/span&gt; sudo docker import - mynewimage
+&lt;/pre&gt;&lt;/div&gt;</content><category term="linux"></category><category term="docker"></category><category term="命令"></category></entry><entry><title>Linux下SCSI磁盘热插拔</title><link href="http://puluto.github.io/linuxxia-scsici-pan-re-cha-ba.html" rel="alternate"></link><published>2015-11-25T18:52:00+08:00</published><updated>2015-11-25T18:52:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2015-11-25:/linuxxia-scsici-pan-re-cha-ba.html</id><summary type="html">&lt;h3&gt;ESXi5中对Linux热添加磁盘时发现不生效，下文为临时解决方案&lt;/h3&gt;
+&lt;p&gt;转载：&lt;a href="http://www.anrip.com/post/1295"&gt;技术写真 » Linux下SCSI磁盘热插拔&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;维护服务器时，有可能需要热插拔硬盘，但是Linux好像并不买单，不会自动检测磁盘的装卸，为此热插拔后，我们需要通知Linux服务磁盘状态。&lt;/p&gt;
+&lt;h3&gt;添加磁盘，其中 2 0 1 0 分别对应 HOST CHAN DEV LUN&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;echo &amp;quot;scsi add-single-device 2 0 1 0&amp;quot; &amp;gt; /proc/scsi/scsi
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;查看磁盘&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; cat /proc/scsi/scsi
+Attached devices:
+Host: scsi0 Channel: 00 Id: 00 Lun: 00
+Vendor: NECVMWar Model …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;h3&gt;ESXi5中对Linux热添加磁盘时发现不生效，下文为临时解决方案&lt;/h3&gt;
+&lt;p&gt;转载：&lt;a href="http://www.anrip.com/post/1295"&gt;技术写真 » Linux下SCSI磁盘热插拔&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;维护服务器时，有可能需要热插拔硬盘，但是Linux好像并不买单，不会自动检测磁盘的装卸，为此热插拔后，我们需要通知Linux服务磁盘状态。&lt;/p&gt;
+&lt;h3&gt;添加磁盘，其中 2 0 1 0 分别对应 HOST CHAN DEV LUN&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;echo &amp;quot;scsi add-single-device 2 0 1 0&amp;quot; &amp;gt; /proc/scsi/scsi
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;查看磁盘&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; cat /proc/scsi/scsi
+Attached devices:
+Host: scsi0 Channel: 00 Id: 00 Lun: 00
+Vendor: NECVMWar Model: VMware IDE CDR00 Rev: 1.00
+Type:   CD-ROM                           ANSI  SCSI revision: 05
+Host: scsi2 Channel: 00 Id: 00 Lun: 00
+Vendor: VMware   Model: Virtual disk     Rev: 1.0
+Type:   Direct-Access                    ANSI  SCSI revision: 02
+Host: scsi2 Channel: 00 Id: 01 Lun: 00
+Vendor: VMware   Model: Virtual disk     Rev: 1.0
+Type:   Direct-Access                    ANSI  SCSI revision: 02
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;参数解析：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;HOST 是硬盘所在SCSI控制器号(本例中，磁盘所在通道为2);&lt;/li&gt;
+&lt;li&gt;CHAN 是硬盘所在SCSI通道的编号(一般单通道的就是0，多通道的要看是哪个通道了);&lt;/li&gt;
+&lt;li&gt;DEV 是硬盘的SCSI ID号(可以通过具体插入的硬盘插槽来判断);&lt;/li&gt;
+&lt;li&gt;LUN 是硬盘的lun号(默认情况都是0)&lt;/li&gt;
+&lt;/ul&gt;</content><category term="linux"></category><category term="hotplug"></category></entry><entry><title>Celery简介</title><link href="http://puluto.github.io/celeryjian-jie.html" rel="alternate"></link><published>2015-01-03T10:20:00+08:00</published><updated>2015-01-03T10:20:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2015-01-03:/celeryjian-jie.html</id><summary type="html">&lt;p&gt;Celery(芹菜)是一个异步任务队列/基于分布式消息传递的作业队列。&lt;/p&gt;
+&lt;p&gt;Celery用于生产系统每天处理数以百万计的任务。&lt;/p&gt;
+&lt;p&gt;Celery是用Python编写的，但该协议可以在任何语言实现。它也可以与其他语言通过webhooks实现。&lt;/p&gt;
+&lt;p&gt;由于Celery 3.0系列对以前的系列进行了大量重构优化，现在开始使用就没必要研究旧版本了，所以此介绍以3.0.24的文档为基础。&lt;/p&gt;
+&lt;h3&gt;Celery的工作结构&lt;/h3&gt;
+&lt;p&gt;在使用Celery的时候要明白它的大致结构，Celery的结构非常简单，大致分为3个部分：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;worker部分负责任务的处理，即工作线程，在我的理解中工作线程就是你写的python代码，当然还包括python调用系统工具功能&lt;/li&gt;
+&lt;li&gt;broker部分负责任务消息的分发以及任务结果的存储，这部分任务主要由中间数据存储系统完成，比如消息队列服务器RabbitMQ、redis、
+   Amazon SQS、MongoDB、IronMQ等或者关系型数据库，使用关系型数据库依赖sqlalchemy或者django的ORM&lt;/li&gt;
+&lt;li&gt;Celery主类，进行任务最开始的指派与执行控制，他可以是单独的python脚本，也可以和其他程序结合，应用到django或者flask等
+   web框架里面以及你能想到的任何应用&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Celery的安装&lt;/h3&gt;
+&lt;p&gt;Celery只是一个python包，所以可以通过pip或者easy_install安装,除此之外还需要安装broker的系统，我使用的是redis，除了安装redis以外还需要安装celery-with-redis&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install celery
+pip install celery-with-redis …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Celery(芹菜)是一个异步任务队列/基于分布式消息传递的作业队列。&lt;/p&gt;
+&lt;p&gt;Celery用于生产系统每天处理数以百万计的任务。&lt;/p&gt;
+&lt;p&gt;Celery是用Python编写的，但该协议可以在任何语言实现。它也可以与其他语言通过webhooks实现。&lt;/p&gt;
+&lt;p&gt;由于Celery 3.0系列对以前的系列进行了大量重构优化，现在开始使用就没必要研究旧版本了，所以此介绍以3.0.24的文档为基础。&lt;/p&gt;
+&lt;h3&gt;Celery的工作结构&lt;/h3&gt;
+&lt;p&gt;在使用Celery的时候要明白它的大致结构，Celery的结构非常简单，大致分为3个部分：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;worker部分负责任务的处理，即工作线程，在我的理解中工作线程就是你写的python代码，当然还包括python调用系统工具功能&lt;/li&gt;
+&lt;li&gt;broker部分负责任务消息的分发以及任务结果的存储，这部分任务主要由中间数据存储系统完成，比如消息队列服务器RabbitMQ、redis、
+   Amazon SQS、MongoDB、IronMQ等或者关系型数据库，使用关系型数据库依赖sqlalchemy或者django的ORM&lt;/li&gt;
+&lt;li&gt;Celery主类，进行任务最开始的指派与执行控制，他可以是单独的python脚本，也可以和其他程序结合，应用到django或者flask等
+   web框架里面以及你能想到的任何应用&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Celery的安装&lt;/h3&gt;
+&lt;p&gt;Celery只是一个python包，所以可以通过pip或者easy_install安装,除此之外还需要安装broker的系统，我使用的是redis，除了安装redis以外还需要安装celery-with-redis&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install celery
+pip install celery-with-redis
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;使用其他类型的broker请参见官方文档：&lt;a href="http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#using-a-database"&gt;first-steps-with-celery.html#using-a-database&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Celery的初步使用&lt;/h3&gt;
+&lt;p&gt;启动celery之前先架设好broker服务，安装好redis后以默认方式启动就可以了。
+连接方式为：redis://localhost:6379/0&lt;/p&gt;
+&lt;p&gt;接下来编写任务脚本tasks.py,这个脚本在worker部分和任务分发部分都需要用到：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;celery&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Celery&lt;/span&gt;
+
+&lt;span class="n"&gt;celery&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Celery&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tasks&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;broker&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;redis://localhost:6379/0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nd"&gt;@celery.task&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;执行命令启动worker进行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#这个命令要在tasks.py文件目录运行，命令表示以worker模式启动一个名为tasks的APP&lt;/span&gt;
+&lt;span class="c1"&gt;#worker的名称是test-worker1，一台服务器上可以启动多个worker，只要名称不同，&lt;/span&gt;
+&lt;span class="c1"&gt;#启动好的worker会自动根据tasks.py的信息注册到broker服务中，等待分发任务。&lt;/span&gt;
+
+celery -A tasks worker --loglevel&lt;span class="o"&gt;=&lt;/span&gt;info --hostname&lt;span class="o"&gt;=&lt;/span&gt;test-worker1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;执行任务,使用delay()放，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tasks&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;add&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;delay&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;也可以使用apply_async()方法，把结果存储在类似broker的backend系统中，可以和broker在同一个服务中，
+更改tasks.py中的实例化celery一行,加入backend参数：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;celery&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Celery&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tasks&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;broker&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;redis://localhost:6379/0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;backend&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;redis://localhost:6379/0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;重新执行任务，使用apply_async把结果存储下来，在需要的时候调用get()进行获取，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tasks&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;add&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply_async&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Celery配置&lt;/h3&gt;
+&lt;p&gt;Celery有很多全局变量，不配置的情况下取默认值，当我们需要配置的时候可以把所有的参数写到一个py文件中然后在
+任务文件中进行加载，也可以直接用一个类写到任务文件中，还可以直接对celery类的conf对象直接进行update操作：&lt;/p&gt;
+&lt;p&gt;方法1，直接加载py文件celeryconfig.py:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;BROKER_URL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;amqp://&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;CELERY_RESULT_BACKEND&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;amqp://&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;CELERY_TASK_SERIALIZER&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;json&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;CELERY_RESULT_SERIALIZER&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;json&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;CELERY_TIMEZONE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Europe/Oslo&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;CELERY_ENABLE_UTC&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;celery&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Celery&lt;/span&gt;
+
+&lt;span class="n"&gt;celery&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Celery&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;celery&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;config_from_object&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;celeryconfig&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;方法2，直接对conf进行update：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;celery&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Celery&lt;/span&gt;
+
+&lt;span class="n"&gt;celery&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Celery&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;celery&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="n"&gt;CELERY_TASK_SERIALIZER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;json&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="n"&gt;CELERY_RESULT_SERIALIZER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;json&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="n"&gt;CELERY_TIMEZONE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Europe/Oslo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="n"&gt;CELERY_ENABLE_UTC&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="ow"&gt;or&lt;/span&gt;
+
+&lt;span class="n"&gt;celery&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CELERY_TASK_SERIALIZER&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;json&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;方法3，直接加载类或对象:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;celery&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Celery&lt;/span&gt;
+
+&lt;span class="n"&gt;celery&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Celery&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Config&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;CELERY_ENABLE_UTC&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+    &lt;span class="n"&gt;CELERY_TIMEZONE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Europe/London&amp;#39;&lt;/span&gt;
+
+&lt;span class="n"&gt;celery&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;config_from_object&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Config&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Celery任务分发控制&lt;/h3&gt;
+&lt;p&gt;在celery里面任务分发控制叫task routing即任务路由&lt;/p&gt;
+&lt;p&gt;celery的分发控制使用比较简单，但是高级功能比较复杂，我还不能完全理解，就介绍一下最基础的任务路由方法。&lt;/p&gt;
+&lt;p&gt;在worker进程启动的时候可以使用参数-Q指定当前worker所能接受的队列消息：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;celery -A tasks.tasks worker --loglevel=info --hostname=testq-worker -Q &amp;#39;testq&amp;#39;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后在任务分发的过程中，调用apply_async或者delay方法中指定queue参数，当queue与worker的-Q相匹配时任务
+就可以被分发到相应的worker进程中：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tasks&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;add&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply_async&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;queue&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;testq&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;更高级的使用方法请大家研究官网的文档：
+&lt;a href="http://docs.celeryproject.org/en/latest/userguide/routing.html"&gt;docs-routing&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Celery的管理&lt;/h3&gt;
+&lt;p&gt;celery的管理有几种方式，比较直观的有一个叫flower的webui，可以提供任务查询，worker的生命管理以及路由管理，可以在界面上
+进行实时的路由key添加（就是在worker启动时-Q参数指定的值）&lt;/p&gt;
+&lt;p&gt;使用方式为：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install flower
+celery flower --port&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;5555&lt;/span&gt; --broker&lt;span class="o"&gt;=&lt;/span&gt;redis://localhost:6379/0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;访问&lt;a href="http://flower-server:5555"&gt;http://flower-server:5555&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;还有一种对任务进行实时监控的方式为celery本身提供的events的功能，启动方式为：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;celery events --broker&lt;span class="o"&gt;=&lt;/span&gt;redis://localhost:6379/0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;结束语&lt;/h2&gt;
+&lt;p&gt;celery还有很多功能没来得及研究，我准备把celery应用于服务器管理中一些任务的执行，来代替linux的crontab和一些手工操作，提升更强的灵活性以及更加直观&lt;/p&gt;</content><category term="python"></category><category term="celery"></category></entry><entry><title>Saltstack入门</title><link href="http://puluto.github.io/saltstackru-men.html" rel="alternate"></link><published>2015-01-03T10:20:00+08:00</published><updated>2015-01-03T10:20:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2015-01-03:/saltstackru-men.html</id><summary type="html">&lt;div class="section" id="id1"&gt;
 &lt;h2&gt;什么是Saltstack？&lt;/h2&gt;
 &lt;div class="section" id="apache2"&gt;
 &lt;h3&gt;以Apache2 协议开源的管理服务器基础设施以及服务的轻量级工具（所谓轻量级是说工具结构简单、并不是说功能简单）&lt;/h3&gt;
