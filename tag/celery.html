@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="http://puluto.github.io/static/custom.css" rel="stylesheet">
+
+    <link href="http://puluto.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Thinking Atom">
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+    <meta name="author" content="Puluto" />
+    <meta name="description" content="" />
+<meta property="og:site_name" content="Thinking"/>
+<meta property="og:type" content="blog"/>
+<meta property="og:title" content="Thinking"/>
+<meta property="og:description" content=""/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://puluto.github.io"/>
+
+  <title>Thinking &ndash;     Tag celery
+</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://puluto.github.io">
+        <img src="http://puluto.github.io/theme/img/profile.png" alt="Puluto" title="Puluto">
+      </a>
+      <h1><a href="http://puluto.github.io">Puluto</a></h1>
+
+<p>更新很慢的博客，关于自己研究的一些东西</p>
+      <nav>
+        <ul class="list">
+          <li><a href="http://puluto.github.io/pages/about-me.html#about-me">About me</a></li>
+
+          <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+          <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+          <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-GITHUB" href="https://github.com/puluto" target="_blank"><i class="fa fa-GITHUB"></i></a></li>
+        <li><a class="sc-微博" href="http://weibo.com/u/1871671127" target="_blank"><i class="fa fa-微博"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="http://puluto.github.io">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="http://puluto.github.io/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+
+
+<article>
+  <header>
+    <h2><a href="http://puluto.github.io/celeryjian-jie.html#celeryjian-jie">Celery简介</a></h2>
+    <p>
+          Posted on 2015-01-03(六) in <a href="http://puluto.github.io/category/ren-wu-diao-du.html">任务调度</a>
+
+
+
+        &#8226; 1 min read
+    </p>
+  </header>
+  <div>
+      <p>Celery(芹菜)是一个异步任务队列/基于分布式消息传递的作业队列。</p>
+<p>Celery用于生产系统每天处理数以百万计的任务。</p>
+<p>Celery是用Python编写的，但该协议可以在任何语言实现。它也可以与其他语言通过webhooks实现。</p>
+<p>由于Celery 3.0系列对以前的系列进行了大量重构优化，现在开始使用就没必要研究旧版本了，所以此介绍以3.0.24的文档为基础。</p>
+<h3>Celery的工作结构</h3>
+<p>在使用Celery的时候要明白它的大致结构，Celery的结构非常简单，大致分为3个部分：</p>
+<ol>
+<li>worker部分负责任务的处理，即工作线程，在我的理解中工作线程就是你写的python代码，当然还包括python调用系统工具功能</li>
+<li>broker部分负责任务消息的分发以及任务结果的存储，这部分任务主要由中间数据存储系统完成，比如消息队列服务器RabbitMQ、redis、
+   Amazon SQS、MongoDB、IronMQ等或者关系型数据库，使用关系型数据库依赖sqlalchemy或者django的ORM</li>
+<li>Celery主类，进行任务最开始的指派与执行控制，他可以是单独的python脚本，也可以和其他程序结合，应用到django或者flask等
+   web框架里面以及你能想到的任何应用</li>
+</ol>
+<h3>Celery的安装</h3>
+<p>Celery只是一个python包，所以可以通过pip或者easy_install安装,除此之外还需要安装broker的系统，我使用的是redis，除了安装redis以外还需要安装celery-with-redis</p>
+<div class="highlight"><pre><span></span>pip install celery
+pip install celery-with-redis …</pre></div>
+      <br>
+      <a class="btn" href="http://puluto.github.io/celeryjian-jie.html#celeryjian-jie">    Continue reading
+</a>
+  </div>
+</article>
+
+  <div class="pagination">
+  </div>
+
+
+
+
+    <footer>
+<p>
+  &copy; Puluto 2016 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63906522-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Thinking ",
+  "url" : "http://puluto.github.io",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Thinking - 容器技术</title><link href="http://puluto.github.io/" rel="alternate"></link><link href="http://puluto.github.io/feeds/rong-qi-ji-zhu.atom.xml" rel="self"></link><id>http://puluto.github.io/</id><updated>2015-12-09T18:52:00+08:00</updated><entry><title>基于Centos6安装docker swarm集群</title><link href="http://puluto.github.io/ji-yu-centos6an-zhuang-docker-swarmji-qun.html" rel="alternate"></link><published>2015-12-09T18:52:00+08:00</published><updated>2015-12-09T18:52:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2015-12-09:/ji-yu-centos6an-zhuang-docker-swarmji-qun.html</id><summary type="html">&lt;h3&gt;升级内核到3.8以上&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;rpm&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;RPM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;GPG&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;KEY&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;
+
+&lt;span class="n"&gt;rpm&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ivh&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;release&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;5.&lt;/span&gt;&lt;span class="n"&gt;el6&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;noarch&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rpm&lt;/span&gt;
+
+&lt;span class="c1"&gt;#安装3.10长期支持内核kernel-lt (lt=long-term)&lt;/span&gt;
+&lt;span class="n"&gt;yum&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;enablerepo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lt&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;
+
+&lt;span class="c1"&gt;#或者安装主线kernel-ml (ml=mainline)&lt;/span&gt;
+&lt;span class="n"&gt;yum&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;enablerepo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ml&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;y …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;h3&gt;升级内核到3.8以上&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;rpm&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;RPM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;GPG&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;KEY&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;
+
+&lt;span class="n"&gt;rpm&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ivh&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;release&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;5.&lt;/span&gt;&lt;span class="n"&gt;el6&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;noarch&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rpm&lt;/span&gt;
+
+&lt;span class="c1"&gt;#安装3.10长期支持内核kernel-lt (lt=long-term)&lt;/span&gt;
+&lt;span class="n"&gt;yum&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;enablerepo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lt&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;
+
+&lt;span class="c1"&gt;#或者安装主线kernel-ml (ml=mainline)&lt;/span&gt;
+&lt;span class="n"&gt;yum&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;enablerepo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;elrepo&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ml&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Install Docker Service.&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -sSL https://get.docker.com/ &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;span class="c1"&gt;#国内安装，daocloud加速&lt;/span&gt;
+curl -sSL https://get.daocloud.io/docker &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;span class="c1"&gt;#检查安装结果&lt;/span&gt;
+sudo service docker status
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;安装docker的更多内容请参见: &lt;a href="http://docs.docker.com/engine/installation/"&gt;Docker官方安装文档&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;修改docker配置&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#默认情况下docker守护进程是不会绑定tcp端口的，使用swarm需要开启tcp端口&lt;/span&gt;
+&amp;gt; vim /etc/sysconfig/docker
+&lt;span class="c1"&gt;#默认配置&lt;/span&gt;
+&lt;span class="nv"&gt;other_args&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#修改后的配置&lt;/span&gt;
+&lt;span class="nv"&gt;other_args&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock&amp;quot;&lt;/span&gt;
+&amp;gt; sudo service docker restart
+&lt;span class="c1"&gt;#检查2375端口是否存在&lt;/span&gt;
+&amp;gt; netstat -nltp ｜ grep &lt;span class="m"&gt;2375&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;配置swarm&lt;/h3&gt;
+&lt;p&gt;Swarm支持多种发现节点的模式，在此介绍本地发现(hosted discovery service)和consul发现两种模式&lt;/p&gt;
+&lt;h4&gt;本地发现模式&lt;/h4&gt;
+&lt;p&gt;本地模式的原理是提交这个token到docker公司的服务器，然后运行swarm时去查询docker公司的服务器，
+因为众所周知的原因，连接docker hub都很慢，所以这种方式不稳定，使用也不够灵活，只适用于测试以
+及体验swarm的功能，当然好处是简单，不用引入其他技术。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#执行swarm获得一个机群token，后续节点的加入均需要这个token&lt;/span&gt;
+&amp;gt; sudo docker run swarm create
+be1d6ac91667632d6635ee53b1f8caed
+&lt;span class="c1"&gt;#在每台需要加入同一swarm机群的节点上运行下面的命令&lt;/span&gt;
+&amp;gt; docker run -d swarm join --addr&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;swarm_node_ip:2375&amp;gt; token://be1d6ac91667632d6635ee53b1f8caed
+&lt;span class="c1"&gt;#之后在任意一台节点上运行swarm的管理节点&lt;/span&gt;
+&amp;gt; docker run -d -p &lt;span class="m"&gt;2376&lt;/span&gt;:2375 swarm manage token://be1d6ac91667632d6635ee53b1f8caed
+&lt;span class="c1"&gt;#执行docker的查询命令获得以下信息 &lt;/span&gt;
+&amp;gt; docker -H tcp://&amp;lt;swarm_manage_ip:2376&amp;gt; info
+
+Containers: &lt;span class="m"&gt;4&lt;/span&gt;
+Images: &lt;span class="m"&gt;3&lt;/span&gt;
+Role: primary
+Strategy: spread
+Filters: health, port, dependency, affinity, constraint
+Nodes: &lt;span class="m"&gt;2&lt;/span&gt;
+ dh1: &amp;lt;swarm_node1_ip:2375&amp;gt;
+  └ Containers: &lt;span class="m"&gt;2&lt;/span&gt;
+  └ Reserved CPUs: &lt;span class="m"&gt;0&lt;/span&gt; / &lt;span class="m"&gt;4&lt;/span&gt;
+  └ Reserved Memory: &lt;span class="m"&gt;0&lt;/span&gt; B / &lt;span class="m"&gt;4&lt;/span&gt;.061 GiB
+  └ Labels: &lt;span class="nv"&gt;executiondriver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;native-0.2, &lt;span class="nv"&gt;kernelversion&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.10.93-1.el6.elrepo.x86_64, &lt;span class="nv"&gt;operatingsystem&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;unknown&amp;gt;, &lt;span class="nv"&gt;storagedriver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;devicemapper
+ dh2: &amp;lt;swarm_node2_ip:2375&amp;gt;
+  └ Containers: &lt;span class="m"&gt;2&lt;/span&gt;
+  └ Reserved CPUs: &lt;span class="m"&gt;0&lt;/span&gt; / &lt;span class="m"&gt;4&lt;/span&gt;
+  └ Reserved Memory: &lt;span class="m"&gt;0&lt;/span&gt; B / &lt;span class="m"&gt;4&lt;/span&gt;.061 GiB
+  └ Labels: &lt;span class="nv"&gt;executiondriver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;native-0.2, &lt;span class="nv"&gt;kernelversion&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.10.93-1.el6.elrepo.x86_64, &lt;span class="nv"&gt;operatingsystem&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;unknown&amp;gt;, &lt;span class="nv"&gt;storagedriver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;devicemapper
+CPUs: &lt;span class="m"&gt;8&lt;/span&gt;
+Total Memory: &lt;span class="m"&gt;8&lt;/span&gt;.121 GiB
+Name: ca539e6846b8
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;更多信息请参见 &lt;a href="[https://docs.docker.com/v1.5/swarm/discovery/#using-the-hosted-discovery-service"&gt;Swarm官方文档&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Consul发现模式配置&lt;/h4&gt;
+&lt;p&gt;此文档为了方便统一管理使用docker方式安装Consul，其他方式请参见 &lt;a href="https://www.consul.io/docs/guides/index.html"&gt;Consul官方文档&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#运行consul镜像，因为consul是关键服务而且很多地方可以用到网络使用host模式，直接端口绑定到主机&lt;/span&gt;
+&lt;span class="c1"&gt;#-bootstrap表示初始化一个consul机群，ui参数可以启动consul自带的webui&lt;/span&gt;
+&amp;gt; docker run --net&lt;span class="o"&gt;=&lt;/span&gt;host -P -d --name&lt;span class="o"&gt;=&lt;/span&gt;consul-1 progrium/consul -server -bootstrap -ui-dir /ui
+&lt;span class="c1"&gt;#启动更多的consul节点，与zookeeper和etcd类似，此类服务都应该启动单数个节点便于仲裁&lt;/span&gt;
+&amp;gt; docker run --net&lt;span class="o"&gt;=&lt;/span&gt;host -P -d --name&lt;span class="o"&gt;=&lt;/span&gt;consul-2 progrium/consul -server -join &amp;lt;first_node_ip&amp;gt;
+&amp;gt; docker run --net&lt;span class="o"&gt;=&lt;/span&gt;host -P -d --name&lt;span class="o"&gt;=&lt;/span&gt;consul-3 progrium/consul -server -join &amp;lt;first_node_ip&amp;gt;
+&lt;span class="c1"&gt;#使用consul启动swarm集群&lt;/span&gt;
+&amp;gt; docker run -d swarm join --addr&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;swarm_node1_ip:2375&amp;gt; consul://&amp;lt;consul_node_ip:8500&amp;gt;/swarm
+&lt;span class="c1"&gt;#启动第二个swarm节点，启动更多操作方式完全一样&lt;/span&gt;
+&amp;gt; docker run -d swarm join --addr&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;swarm_node2_ip:2375&amp;gt; consul://&amp;lt;consul_node_ip:8500&amp;gt;/swarm
+&lt;span class="c1"&gt;#启动管理节点&lt;/span&gt;
+&amp;gt; docker run -d -p &lt;span class="m"&gt;2376&lt;/span&gt;:2375 swarm manage consul://&amp;lt;consul_node_ip:8500&amp;gt;/swarm
+&amp;gt; docker -H tcp://&amp;lt;swarm_manage_ip:2376&amp;gt; info
+
+Containers: &lt;span class="m"&gt;5&lt;/span&gt;
+Images: &lt;span class="m"&gt;4&lt;/span&gt;
+Role: primary
+Strategy: spread
+Filters: health, port, dependency, affinity, constraint
+Nodes: &lt;span class="m"&gt;2&lt;/span&gt;
+ dh1: &amp;lt;swarm_node1_ip:2375&amp;gt;
+  └ Containers: &lt;span class="m"&gt;2&lt;/span&gt;
+  └ Reserved CPUs: &lt;span class="m"&gt;0&lt;/span&gt; / &lt;span class="m"&gt;4&lt;/span&gt;
+  └ Reserved Memory: &lt;span class="m"&gt;0&lt;/span&gt; B / &lt;span class="m"&gt;4&lt;/span&gt;.061 GiB
+  └ Labels: &lt;span class="nv"&gt;executiondriver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;native-0.2, &lt;span class="nv"&gt;kernelversion&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.10.93-1.el6.elrepo.x86_64......
+ dh2: &amp;lt;swarm_node2_ip:2375&amp;gt;
+  └ Containers: &lt;span class="m"&gt;3&lt;/span&gt;
+  └ Reserved CPUs: &lt;span class="m"&gt;0&lt;/span&gt; / &lt;span class="m"&gt;4&lt;/span&gt;
+  └ Reserved Memory: &lt;span class="m"&gt;0&lt;/span&gt; B / &lt;span class="m"&gt;4&lt;/span&gt;.061 GiB
+  └ Labels: &lt;span class="nv"&gt;executiondriver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;native-0.2, &lt;span class="nv"&gt;kernelversion&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.10.93-1.el6.elrepo.x86_64......
+CPUs: &lt;span class="m"&gt;8&lt;/span&gt;
+Total Memory: &lt;span class="m"&gt;8&lt;/span&gt;.121 GiB
+Name: ca539e6846b8
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;顺带配置一个Shipyard webui来管理docker&lt;/h4&gt;
+&lt;p&gt;Shipyard本身自带一套安装swarm的流程，但是我们前面已经做过很多准备工作了所以不需要更多工作
+感兴趣的请参考 &lt;a href="http://shipyard-project.com/docs/deploy/automated/"&gt;Shipyard官方文档&lt;/a&gt;
+我们这里只需要安装Shipyard依赖的rethinkdb和他的webui&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#通过docker安装rethinkdb&lt;/span&gt;
+docker run -ti -d --restart&lt;span class="o"&gt;=&lt;/span&gt;always --name shipyard-rethinkdb rethinkdb
+&lt;span class="c1"&gt;#安装webui，需要link到rethinkdb，也就是说这两个服务需要安装到同一个docker node.&lt;/span&gt;
+docker run -ti -d --restart&lt;span class="o"&gt;=&lt;/span&gt;always --name shipyard-controller --link shipyard-rethinkdb:rethinkdb &lt;span class="se"&gt;\&lt;/span&gt;
+-p &lt;span class="m"&gt;8080&lt;/span&gt;:8080 shipyard/shipyard:latest server -d tcp://&amp;lt;swarm_manage_ip:2376&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;到现在这个部署流程已经完成的差不多了，更详细的内容请查看各个组件的官方文档，在使用某个开源产品时建议第一件事就是详细阅读官方文档。&lt;/h5&gt;
+&lt;h4&gt;后记：&lt;/h4&gt;
+&lt;p&gt;由于目前官方docker对rhel6系列支持有限，官方只支持rhel6系列上安装1.7版本，所以一些高级功能不能使用，所以建议使用ubuntu 14.04以上或者rhel7系列发行版进行安装，我们目前使用的是ubuntu14.04，前面的教程除了docker守护进程配置文件为/etc/default/docker与centos6不同以及ubuntu14.04不用安装额外内核支持，其他操作均一摸一样。&lt;/p&gt;</content><category term="linux"></category><category term="docker"></category><category term="命令"></category></entry><entry><title>Docker常用命令</title><link href="http://puluto.github.io/dockerchang-yong-ming-ling.html" rel="alternate"></link><published>2015-11-26T18:52:00+08:00</published><updated>2015-11-26T18:52:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2015-11-26:/dockerchang-yong-ming-ling.html</id><summary type="html">&lt;h4&gt;容器安装操作(Linux内核需大于3.10)&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#原始安装&lt;/span&gt;
+curl -sSL https://get.docker.com/ &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;span class="c1"&gt;#国内安装，daocloud加速&lt;/span&gt;
+curl -sSL https://get.daocloud.io/docker &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;span class="c1"&gt;#检查安装结果&lt;/span&gt;
+sudo service docker status
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;安装docker的更多内容请参见: &lt;a href="http://docs.docker.com/engine/installation/"&gt;Docker官方安装文档&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;容器运行操作&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#列出正在运行的容器&lt;/span&gt;
+docker ps
+
+&lt;span class="c1"&gt;#列出所有的容器&lt;/span&gt;
+docker ps -a
+
+&lt;span class="c1"&gt;#下载一个镜像到本地，并不运行&lt;/span&gt;
+docker pull ubuntu
+
+&lt;span class="c1"&gt;#运行一个容器，如果镜像不存在会自动进行pull&lt;/span&gt;
+docker run -i -t ubuntu /bin/bash …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;h4&gt;容器安装操作(Linux内核需大于3.10)&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#原始安装&lt;/span&gt;
+curl -sSL https://get.docker.com/ &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;span class="c1"&gt;#国内安装，daocloud加速&lt;/span&gt;
+curl -sSL https://get.daocloud.io/docker &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;span class="c1"&gt;#检查安装结果&lt;/span&gt;
+sudo service docker status
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;安装docker的更多内容请参见: &lt;a href="http://docs.docker.com/engine/installation/"&gt;Docker官方安装文档&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;容器运行操作&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#列出正在运行的容器&lt;/span&gt;
+docker ps
+
+&lt;span class="c1"&gt;#列出所有的容器&lt;/span&gt;
+docker ps -a
+
+&lt;span class="c1"&gt;#下载一个镜像到本地，并不运行&lt;/span&gt;
+docker pull ubuntu
+
+&lt;span class="c1"&gt;#运行一个容器，如果镜像不存在会自动进行pull&lt;/span&gt;
+docker run -i -t ubuntu /bin/bash
+
+&lt;span class="c1"&gt;#运行容器并做端口转发至主机的3306，-e传入环境变量设置mysql的root密码&lt;/span&gt;
+docker run --name test-mysql -e &lt;span class="nv"&gt;MYSQL_ROOT_PASSWORD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;my-secret-pw -d -p &lt;span class="m"&gt;3306&lt;/span&gt;:3306 daocloud.io/library/mysql:latest
+&lt;span class="c1"&gt;#运行一个tinyproxy代理&lt;/span&gt;
+docker run -i -t -p :8888 dannydirect/tinyproxy:latest ANY
+
+&lt;span class="c1"&gt;#以bash进入到运行中的容器&lt;/span&gt;
+sudo docker &lt;span class="nb"&gt;exec&lt;/span&gt; -it &amp;lt;CONTAINER ID&amp;gt; /bin/bash
+
+&lt;span class="c1"&gt;#删除所有容器&lt;/span&gt;
+docker rm &lt;span class="sb"&gt;`&lt;/span&gt;docker ps -a -q&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;容器镜像操作&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#列出所有镜像(images)&lt;/span&gt;
+docker images
+
+&lt;span class="c1"&gt;#通过Dockerfile构建一个映像文件，Dockerfile的每一行指令都会创建一个临时的Container&lt;/span&gt;
+&lt;span class="c1"&gt;#–rm 选项是告诉Docker在构建完成后删除临时的Container，&lt;/span&gt;
+docker build --rm&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt; -t mytest/tinyproxy .
+
+&lt;span class="c1"&gt;#提交你的变更，并且把容器保存成镜像，命名为 mynewimage.&amp;lt;CONTAINER ID&amp;gt;为容器的ID.&lt;/span&gt;
+docker commit &amp;lt;CONTAINER ID&amp;gt; mynewimage
+
+&lt;span class="c1"&gt;#把 mynewimage 镜像保存成 tar 文件&lt;/span&gt;
+docker save mynewimage &lt;span class="p"&gt;|&lt;/span&gt; bzip2 -9 -c &amp;gt; /home/mynewimage.tar.bz2
+
+&lt;span class="c1"&gt;#加载 mynewimage 镜像&lt;/span&gt;
+bzip2 -d -c &amp;lt; /home/mynewimage.tar.bz2 &lt;span class="p"&gt;|&lt;/span&gt; docker load
+
+&lt;span class="c1"&gt;#删除镜像&lt;/span&gt;
+docker rmi &lt;span class="o"&gt;[&lt;/span&gt;image-id&lt;span class="o"&gt;]&lt;/span&gt;
+
+&lt;span class="c1"&gt;#导出正在运行的容器为Image&lt;/span&gt;
+docker &lt;span class="nb"&gt;export&lt;/span&gt; &amp;lt;CONTAINER ID&amp;gt; &amp;gt; /home/export.tar
+
+&lt;span class="c1"&gt;#导入Image镜像&lt;/span&gt;
+cat /home/export.tar &lt;span class="p"&gt;|&lt;/span&gt; sudo docker import - mynewimage
+&lt;/pre&gt;&lt;/div&gt;</content><category term="linux"></category><category term="docker"></category><category term="命令"></category></entry></feed>
