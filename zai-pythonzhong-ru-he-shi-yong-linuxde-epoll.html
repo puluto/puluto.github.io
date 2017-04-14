@@ -133,7 +133,6 @@
 </li>
 </ul>
 <p><em>Example 1 (All examples use Python 3)</em></p>
-<p>::::</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">socket</span>
 
 <span class="n">EOL1</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
@@ -165,31 +164,30 @@
 <li>在23-24行的finally语句，可以确保服务端负责监听的socket会关闭，即使有异常发生。</li>
 </ul>
 <p><em>Example 2</em></p>
-<p>::::</p>
-<div class="highlight"><pre><span></span><span class="s s-Atom">import</span> <span class="s s-Atom">socket</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">socket</span>
 
-<span class="nv">EOL1</span> <span class="o">=</span> <span class="s s-Atom">b&#39;\n\n&#39;</span>
-<span class="nv">EOL2</span> <span class="o">=</span> <span class="s s-Atom">b&#39;\n\r\n&#39;</span>
-<span class="s s-Atom">response</span>  <span class="o">=</span> <span class="s s-Atom">b&#39;HTTP/1.0 200 OK\r\nDate: Mon, 1 Jan 1996 01:01:01 GMT\r\n&#39;</span>
-<span class="s s-Atom">response</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">b&#39;Content-Type: text/plain\r\nContent-Length: 13\r\n\r\n&#39;</span>
-<span class="s s-Atom">response</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">b&#39;Hello, world!&#39;</span>
+<span class="n">EOL1</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+<span class="n">EOL2</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\n\r\n</span><span class="s1">&#39;</span>
+<span class="n">response</span>  <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;HTTP/1.0 200 OK</span><span class="se">\r\n</span><span class="s1">Date: Mon, 1 Jan 1996 01:01:01 GMT</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+<span class="n">response</span> <span class="o">+=</span> <span class="sa">b</span><span class="s1">&#39;Content-Type: text/plain</span><span class="se">\r\n</span><span class="s1">Content-Length: 13</span><span class="se">\r\n\r\n</span><span class="s1">&#39;</span>
+<span class="n">response</span> <span class="o">+=</span> <span class="sa">b</span><span class="s1">&#39;Hello, world!&#39;</span>
 
-<span class="s s-Atom">serversocket</span> <span class="o">=</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nf">socket</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">AF_INET</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SOCK_STREAM</span><span class="p">)</span>
-<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SOL_SOCKET</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">bind</span><span class="p">((</span><span class="s s-Atom">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
-<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">serversocket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+<span class="n">serversocket</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">serversocket</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
+<span class="n">serversocket</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="nn">try</span><span class="p">:</span>
-   <span class="s s-Atom">while</span> <span class="nv">True</span><span class="s s-Atom">:</span>
-      <span class="s s-Atom">connectiontoclient</span><span class="p">,</span> <span class="s s-Atom">address</span> <span class="o">=</span> <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">accept</span><span class="p">()</span>
-      <span class="s s-Atom">request</span> <span class="o">=</span> <span class="s s-Atom">b&#39;&#39;</span>
-      <span class="s s-Atom">while</span> <span class="nv">EOL1</span> <span class="o">not</span> <span class="s s-Atom">in</span> <span class="s s-Atom">request</span> <span class="s s-Atom">and</span> <span class="nv">EOL2</span> <span class="o">not</span> <span class="s s-Atom">in</span> <span class="nn">request</span><span class="p">:</span>
-          <span class="s s-Atom">request</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">connectiontoclient</span><span class="p">.</span><span class="nf">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
-      <span class="nf">print</span><span class="p">(</span><span class="s s-Atom">&#39;-&#39;</span><span class="o">*</span><span class="mi">40</span> <span class="o">+</span> <span class="s s-Atom">&#39;\n&#39;</span> <span class="o">+</span> <span class="s s-Atom">request</span><span class="p">.</span><span class="nf">decode</span><span class="p">()[:-</span><span class="mi">2</span><span class="p">])</span>
-      <span class="s s-Atom">connectiontoclient</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s s-Atom">response</span><span class="p">)</span>
-      <span class="s s-Atom">connectiontoclient</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
-<span class="nn">finally</span><span class="p">:</span>
-   <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+<span class="k">try</span><span class="p">:</span>
+   <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+      <span class="n">connectiontoclient</span><span class="p">,</span> <span class="n">address</span> <span class="o">=</span> <span class="n">serversocket</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+      <span class="n">request</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
+      <span class="k">while</span> <span class="n">EOL1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">request</span> <span class="ow">and</span> <span class="n">EOL2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">request</span><span class="p">:</span>
+          <span class="n">request</span> <span class="o">+=</span> <span class="n">connectiontoclient</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+      <span class="k">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">40</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="n">decode</span><span class="p">()[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+      <span class="n">connectiontoclient</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+      <span class="n">connectiontoclient</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k">finally</span><span class="p">:</span>
+   <span class="n">serversocket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
 
