@@ -1,0 +1,554 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="http://puluto.github.io/static/custom.css" rel="stylesheet">
+
+    <link href="http://puluto.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Thinking Atom">
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Puluto" />
+<meta name="description" content="文档出自这里 从2.6开始，Python包含了访问Linux epoll库的API。这篇文章用几个简单的python 3例子来展示下这个API。欢迎大家质疑和反馈。 阻塞socket编程示例 示例1 用python3.0搭建了一个简单的服务：在8080端口监听HTTP请求，把它打印到控制台，并返回一个HTTP响应消息给客户端。 第9行：创建服务器socket。 第10行：允许在11行使用bind()来监听指定端口，即使这个端口最近被其他程序监听。没有这个设置的话，服务不能运行，直到一两分钟后，这个端口不再被之前的程序使用。 第11行：监听这台机器所有可用的IPv4地址上面的8080端口。 第12行：通知服务端socket开始接受来自客户端的连接。 第14行：这行代码直到接收到一个客户端连接才会完成。这时，服务端socket会在服务端机器上面创建一个新的socket，用来和客户端通信。这个新的socket在代码里面就是accept()调用返回的clientconnection 对象。返回的address对象代表着客户端的IP和端口。 第15-17行：组装从客户端传输过来的数据，直到HTTP请求完成。HTTP协议可以参考这里。 第18行：把请求打印到控制台，验证操作是否正确。 第19行：发送响应回客户端 …" />
+<meta name="keywords" content="python, linux">
+<meta property="og:site_name" content="Thinking"/>
+<meta property="og:title" content="在Python中如何使用Linux的epoll"/>
+<meta property="og:description" content="文档出自这里 从2.6开始，Python包含了访问Linux epoll库的API。这篇文章用几个简单的python 3例子来展示下这个API。欢迎大家质疑和反馈。 阻塞socket编程示例 示例1 用python3.0搭建了一个简单的服务：在8080端口监听HTTP请求，把它打印到控制台，并返回一个HTTP响应消息给客户端。 第9行：创建服务器socket。 第10行：允许在11行使用bind()来监听指定端口，即使这个端口最近被其他程序监听。没有这个设置的话，服务不能运行，直到一两分钟后，这个端口不再被之前的程序使用。 第11行：监听这台机器所有可用的IPv4地址上面的8080端口。 第12行：通知服务端socket开始接受来自客户端的连接。 第14行：这行代码直到接收到一个客户端连接才会完成。这时，服务端socket会在服务端机器上面创建一个新的socket，用来和客户端通信。这个新的socket在代码里面就是accept()调用返回的clientconnection 对象。返回的address对象代表着客户端的IP和端口。 第15-17行：组装从客户端传输过来的数据，直到HTTP请求完成。HTTP协议可以参考这里。 第18行：把请求打印到控制台，验证操作是否正确。 第19行：发送响应回客户端 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://puluto.github.io/zai-pythonzhong-ru-he-shi-yong-linuxde-epoll.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-01-03 10:20:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://puluto.github.io/author/puluto.html">
+<meta property="article:section" content="并发编程"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="linux"/>
+<meta property="og:image" content="">
+
+  <title>Thinking &ndash; 在Python中如何使用Linux的epoll</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://puluto.github.io">
+        <img src="http://puluto.github.io/theme/img/profile.png" alt="Puluto" title="Puluto">
+      </a>
+      <h1><a href="http://puluto.github.io">Puluto</a></h1>
+
+<p>更新很慢的博客，关于自己研究的一些东西</p>
+      <nav>
+        <ul class="list">
+          <li><a href="http://puluto.github.io/pages/about-me.html#about-me">About me</a></li>
+
+          <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-GITHUB" href="https://github.com/puluto" target="_blank"><i class="fa fa-GITHUB"></i></a></li>
+        <li><a class="sc-微博" href="http://weibo.com/u/1871671127" target="_blank"><i class="fa fa-微博"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="http://puluto.github.io">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="http://puluto.github.io/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="zai-pythonzhong-ru-he-shi-yong-linuxde-epoll">在Python中如何使用Linux的epoll</h1>
+    <p>
+          Posted on 2015-01-03(Sat) in <a href="http://puluto.github.io/category/bing-fa-bian-cheng.html">并发编程</a>
+
+
+        &#8226; 3 min read
+    </p>
+  </header>
+
+
+  <div>
+    <p><a href="https://docs.google.com/document/pub?id=1kH6JKRgAo6BDC3voKInN4TrSgqC0VVs9Op80xl5xGxw&amp;pli=1#h.jaxt035lm50">文档出自这里</a></p>
+<p>从2.6开始，<a href="https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Fwww.python.org%252F%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNEP7etIfXhra1IhmVJRuJJxa6wRxQ&amp;sa=D&amp;ust=1492174612025000&amp;usg=AFQjCNE-rZG5tzCHiQTrmFdLvZX32GChRw">Python</a>包含了访问Linux epoll库的API。这篇文章用几个简单的python 3例子来展示下这个API。欢迎大家质疑和<a href="http://scotdoyle.com">反馈</a>。</p>
+<h1>阻塞socket编程示例</h1>
+<h2>示例1</h2>
+<ul>
+<li>
+<p>用python3.0搭建了一个简单的服务：在8080端口监听HTTP请求，把它打印到控制台，并返回一个HTTP响应消息给客户端。</p>
+</li>
+<li>
+<p>第9行：创建服务器socket。</p>
+</li>
+<li>
+<p>第10行：允许在11行使用bind()来监听指定端口，即使这个端口最近被其他程序监听。没有这个设置的话，服务不能运行，直到一两分钟后，这个端口不再被之前的程序使用。</p>
+</li>
+<li>
+<p>第11行：监听这台机器所有可用的IPv4地址上面的8080端口。</p>
+</li>
+<li>
+<p>第12行：通知服务端socket开始接受来自客户端的连接。</p>
+</li>
+<li>
+<p>第14行：这行代码直到接收到一个客户端连接才会完成。这时，服务端socket会在服务端机器上面创建一个新的socket，用来和客户端通信。这个新的socket在代码里面就是accept()调用返回的clientconnection 对象。返回的address对象代表着客户端的IP和端口。</p>
+</li>
+<li>
+<p>第15-17行：组装从客户端传输过来的数据，直到HTTP请求完成。HTTP协议可以参考<a href="https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Fwww.jmarshall.com%252Feasy%252Fhttp%252F%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNH8eRESrpc9ojWqF2YSsIPP1_oRDw&amp;sa=D&amp;ust=1492174612032000&amp;usg=AFQjCNFpPTnjdlpCWoP-zbtXRB8gTak09w">这里</a>。</p>
+</li>
+<li>
+<p>第18行：把请求打印到控制台，验证操作是否正确。</p>
+</li>
+<li>
+<p>第19行：发送响应回客户端。</p>
+</li>
+<li>
+<p>第20-22行：关闭和客户端的连接以及服务端监听socket。
+官方<a href="https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Fdocs.python.org%252F3.0%252Fhowto%252Fsockets.html%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNGiML8p3XYTS0kgoO5ZGNk5Cfav5A&amp;sa=D&amp;ust=1492174612035000&amp;usg=AFQjCNHIq6WJpkYDajCO520KRoHi_VYfYw">howto</a>中对python socket编程有更详细的描述。</p>
+</li>
+</ul>
+<p><em>Example 1 (All examples use Python 3)</em></p>
+<p>::::</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="n">EOL1</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+<span class="n">EOL2</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\n\r\n</span><span class="s1">&#39;</span>
+<span class="n">response</span>  <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;HTTP/1.0 200 OK</span><span class="se">\r\n</span><span class="s1">Date: Mon, 1 Jan 1996 01:01:01 GMT</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+<span class="n">response</span> <span class="o">+=</span> <span class="sa">b</span><span class="s1">&#39;Content-Type: text/plain</span><span class="se">\r\n</span><span class="s1">Content-Length: 13</span><span class="se">\r\n\r\n</span><span class="s1">&#39;</span>
+<span class="n">response</span> <span class="o">+=</span> <span class="sa">b</span><span class="s1">&#39;Hello, world!&#39;</span>
+
+<span class="n">serversocket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+<span class="n">serversocket</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">serversocket</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
+<span class="n">serversocket</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">connectiontoclient</span><span class="p">,</span> <span class="n">address</span> <span class="o">=</span> <span class="n">serversocket</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+<span class="n">request</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
+<span class="k">while</span> <span class="n">EOL1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">request</span> <span class="ow">and</span> <span class="n">EOL2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">request</span><span class="p">:</span>
+   <span class="n">request</span> <span class="o">+=</span> <span class="n">connectiontoclient</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+<span class="n">connectiontoclient</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+<span class="n">connectiontoclient</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">serversocket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+
+<h2>示例2</h2>
+<ul>
+<li>在15行增加了一个循环来不断的处理来自客户端的连接，直到用户中断（比如键盘中断）。这个例子更清楚的说明服务端socket从不和客户端交换数据。相反的，它接收客户端的连接，然后在这台服务器上面创建一个新的socket用来和客户端通信。</li>
+<li>在23-24行的finally语句，可以确保服务端负责监听的socket会关闭，即使有异常发生。</li>
+</ul>
+<p><em>Example 2</em></p>
+<p>::::</p>
+<div class="highlight"><pre><span></span><span class="s s-Atom">import</span> <span class="s s-Atom">socket</span>
+
+<span class="nv">EOL1</span> <span class="o">=</span> <span class="s s-Atom">b&#39;\n\n&#39;</span>
+<span class="nv">EOL2</span> <span class="o">=</span> <span class="s s-Atom">b&#39;\n\r\n&#39;</span>
+<span class="s s-Atom">response</span>  <span class="o">=</span> <span class="s s-Atom">b&#39;HTTP/1.0 200 OK\r\nDate: Mon, 1 Jan 1996 01:01:01 GMT\r\n&#39;</span>
+<span class="s s-Atom">response</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">b&#39;Content-Type: text/plain\r\nContent-Length: 13\r\n\r\n&#39;</span>
+<span class="s s-Atom">response</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">b&#39;Hello, world!&#39;</span>
+
+<span class="s s-Atom">serversocket</span> <span class="o">=</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nf">socket</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">AF_INET</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SOCK_STREAM</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SOL_SOCKET</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">bind</span><span class="p">((</span><span class="s s-Atom">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nn">try</span><span class="p">:</span>
+   <span class="s s-Atom">while</span> <span class="nv">True</span><span class="s s-Atom">:</span>
+      <span class="s s-Atom">connectiontoclient</span><span class="p">,</span> <span class="s s-Atom">address</span> <span class="o">=</span> <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">accept</span><span class="p">()</span>
+      <span class="s s-Atom">request</span> <span class="o">=</span> <span class="s s-Atom">b&#39;&#39;</span>
+      <span class="s s-Atom">while</span> <span class="nv">EOL1</span> <span class="o">not</span> <span class="s s-Atom">in</span> <span class="s s-Atom">request</span> <span class="s s-Atom">and</span> <span class="nv">EOL2</span> <span class="o">not</span> <span class="s s-Atom">in</span> <span class="nn">request</span><span class="p">:</span>
+          <span class="s s-Atom">request</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">connectiontoclient</span><span class="p">.</span><span class="nf">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+      <span class="nf">print</span><span class="p">(</span><span class="s s-Atom">&#39;-&#39;</span><span class="o">*</span><span class="mi">40</span> <span class="o">+</span> <span class="s s-Atom">&#39;\n&#39;</span> <span class="o">+</span> <span class="s s-Atom">request</span><span class="p">.</span><span class="nf">decode</span><span class="p">()[:-</span><span class="mi">2</span><span class="p">])</span>
+      <span class="s s-Atom">connectiontoclient</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s s-Atom">response</span><span class="p">)</span>
+      <span class="s s-Atom">connectiontoclient</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+<span class="nn">finally</span><span class="p">:</span>
+   <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+</pre></div>
+
+
+<p>异步socket的好处以及Linux epoll</p>
+<ul>
+<li>示例2中的socket叫做阻塞socket，因为python程序会停止运行，直到一个event发生。16行的accept()调用会阻塞，直到接收到一个客户端连接。</li>
+<li>19行的recv()调用会阻塞，直到这次接收客户端数据完成（或者没有更多的数据要接收）。21行的send()调用也会阻塞，直到将这次需要返回给客户端的数据都放到Linux的发送缓冲队列中。</li>
+<li>当一个程序使用阻塞socket时，常常使用一个线程（甚至是一个专门的程序）来进行各个socket之间的通信。主程序线程会包含接收客户端连接的服务端监听socket。这个socket一次接收一个客户端连接，把连接传给另外一个线程新建的socket去处理。因为这些线程每个只和一个客户端通信，所以处理时即便在某几个点阻塞也没有关系。这种阻塞并不会对其他线程的处理造成任何影响。
+使用多线程、阻塞socket来处理的话，代码会很直观，但是也会有<a href="https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Fwww.virtualdub.org%252Fblog%252Fpivot%252Fentry.php%253Fid%253D62%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNEzhYSGdfy0SaEOET0JEkaPIllLAg&amp;sa=D&amp;ust=1492174612059000&amp;usg=AFQjCNGT4CyNaNIIMRX5bblF1nMFTnnUzA">不少缺陷</a>。它很难确保线程共享资源没有问题。而且这种编程风格的程序在只有一个CPU的电脑上面效率更低。</li>
+<li><a href="https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Fwww.kegel.com%252Fc10k.html%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNGtTLrM31SPGEYBDjpjSU6tVYQYKA&amp;sa=D&amp;ust=1492174612060000&amp;usg=AFQjCNFOT7yGjoq_nUnk1Ipi5OYre6TqUA">C10K</a>问题探讨了一些替代选择，其一是使用异步socket。这种socket只有在一些event触发时才会阻塞。相反，程序在异步socket上面执行一个动作，会立即被告知这个动作是否成功。程序会根据这个信息决定怎么继续下面的操作由于异步socket是非阻塞的，就没有必要再来使用多线程。所有的工作都可以在一个线程中完成。这种单线程模式有它自己的挑战，但可以成为很多方案不错的选择。它也可以结合多线程一起使用：单线程使用异步socket用于处理服务器的网络部分，多线程可以用来访问其他阻塞资源，比如数据库。</li>
+<li>Linux的2.6内核有一系列机制来管理异步socket，其中3个有对应的Python的API：select、poll和epoll。epoll和pool比select更好，因为Python程序不需要检查每一个socket感兴趣的event。相反，它可以依赖操作系统来告诉它哪些socket可能有这些event。epoll比pool更好，因为它不要求操作系统每次都去检查python程序需要的所有socket感兴趣的event。而是Linux在event发生的时候会跟踪到，并在Python需要的时候返回一个列表。</li>
+<li>因此epoll对于大量（成千上万）并发socket连接，是更有效率和可扩展的机制，可以看这里的<a href="https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Flse.sourceforge.net%252Fepoll%252Findex.html%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNHqYx09zrHtpvJUvGOWYvYFkDpR4g&amp;sa=D&amp;ust=1492174612061000&amp;usg=AFQjCNGsNbxMBuAJjWFKo5qTQepkVwkOOA">图片</a>。</li>
+</ul>
+<h2>带epoll的异步socket编程示例</h2>
+<p>程序中使用epoll的顺序大都如下:</p>
+<ul>
+<li>创建一个epoll对象</li>
+<li>告诉epoll对象监控指定socket的指定event</li>
+<li>询问epoll对象自从上次查询以后有哪些socket可能有指定的event发生</li>
+<li>在这些socket上面执行一些动作</li>
+<li>告诉epool对象去修改socket列表和（或者）event监控</li>
+<li>重复步骤3到5，直到完成</li>
+<li>销毁epoll对象</li>
+</ul>
+<h2>示例3</h2>
+<ul>
+<li>重复了示例2的功能，同时使用异步socket。这个程序更为复杂，因为一个线程要交错与多个客户端通信。</li>
+<li>第1行：select模块包含epoll功能。</li>
+<li>第13行：因为socket默认是阻塞的，所以需要使用非阻塞（异步）模式。</li>
+<li>第15行：创建一个epoll对象。</li>
+<li>第16行：在服务端socket上面注册对读event的关注。一个读event随时会触发服务端socket去接收一个socket连接。</li>
+<li>第19行：字典connections映射文件描述符（整数）到其相应的网络连接对象。</li>
+<li>第21行：查询epoll对象，看是否有任何关注的event被触发。参数“1”表示，我们会等待1秒来看是否有event发生。如果有任何我们感兴趣的event发生在这次查询之前，这个查询就会带着这些event的列表立即返回。</li>
+<li>第22行：event作为一个序列（fileno，event code）的元组返回。fileno是文件描述符的代名词，始终是一个整数。</li>
+<li>第23行：如果一个读event在服务端sockt发生，就会有一个新的socket连接可能被创建。</li>
+<li>第25行：设置新的socket为非阻塞模式。</li>
+<li>第26行：为新的socket注册对读（EPOLLIN）event的关注。</li>
+<li>第31行：如果发生一个读event，就读取从客户端发送过来的新数据。</li>
+<li>第33行：一旦完成请求已收到，就注销对读event的关注，注册对写（EPOLLOUT）event的关注。写event发生的时候，会回复数据给客户端。</li>
+<li>第34行：打印完整的请求，证明虽然与客户端的通信是交错进行的，但数据可以作为一个整体来组装和处理。</li>
+<li>第35行：如果一个写event在一个客户端socket上面发生，它会接受新的数据以便发送到客户端。</li>
+<li>第36-38行：每次发送一部分响应数据，直到完整的响应数据都已经发送给操作系统等待传输给客户端。</li>
+<li>第39行：一旦完整的响应数据发送完成，就不再关注读或者写event。</li>
+<li>第40行：如果一个连接显式关闭，那么socket shutdown是可选的。本示例程序这样使用，是为了让客户端首先关闭。shutdown调用会通知客户端socket没有更多的数据应该被发送或接收，并会让功能正常的客户端关闭自己的socket连接。</li>
+<li>第41行：HUP（挂起）event表明客户端socket已经断开（即关闭），所以服务端也需要关闭。没有必要注册对HUP event的关注。在socket上面，它们总是会被epoll对象注册。</li>
+<li>第42行：注销对此socket连接的关注。</li>
+<li>第43行：关闭socket连接。</li>
+<li>第18-45行：使用try-catch，因为该示例程序最有可能被KeyboardInterrupt异常中断。</li>
+<li>第46-48行：打开的socket连接不需要关闭，因为Python会在程序结束的时候关闭。这里显式关闭是一个好的代码习惯。</li>
+</ul>
+<p><em>Example 3</em></p>
+<p>::::</p>
+<div class="highlight"><pre><span></span><span class="s s-Atom">import</span> <span class="s s-Atom">socket</span><span class="p">,</span> <span class="s s-Atom">select</span>
+
+<span class="nv">EOL1</span> <span class="o">=</span> <span class="s s-Atom">b&#39;\n\n&#39;</span>
+<span class="nv">EOL2</span> <span class="o">=</span> <span class="s s-Atom">b&#39;\n\r\n&#39;</span>
+<span class="s s-Atom">response</span>  <span class="o">=</span> <span class="s s-Atom">b&#39;HTTP/1.0 200 OK\r\nDate: Mon, 1 Jan 1996 01:01:01 GMT\r\n&#39;</span>
+<span class="s s-Atom">response</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">b&#39;Content-Type: text/plain\r\nContent-Length: 13\r\n\r\n&#39;</span>
+<span class="s s-Atom">response</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">b&#39;Hello, world!&#39;</span>
+
+<span class="s s-Atom">serversocket</span> <span class="o">=</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nf">socket</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">AF_INET</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SOCK_STREAM</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SOL_SOCKET</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">bind</span><span class="p">((</span><span class="s s-Atom">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">setblocking</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="s s-Atom">epoll</span> <span class="o">=</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nf">epoll</span><span class="p">()</span>
+<span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">register</span><span class="p">(</span><span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">fileno</span><span class="p">(),</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLIN</span><span class="p">)</span>
+
+<span class="nn">try</span><span class="p">:</span>
+   <span class="s s-Atom">connections</span> <span class="o">=</span> <span class="p">{};</span> <span class="s s-Atom">requests</span> <span class="o">=</span> <span class="p">{};</span> <span class="s s-Atom">responses</span> <span class="o">=</span> <span class="p">{}</span>
+   <span class="s s-Atom">while</span> <span class="nv">True</span><span class="s s-Atom">:</span>
+      <span class="s s-Atom">events</span> <span class="o">=</span> <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">poll</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="s s-Atom">for</span> <span class="s s-Atom">fileno</span><span class="p">,</span> <span class="s s-Atom">event</span> <span class="s s-Atom">in</span> <span class="nn">events</span><span class="p">:</span>
+         <span class="s s-Atom">if</span> <span class="s s-Atom">fileno</span> <span class="o">==</span> <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()</span><span class="s s-Atom">:</span>
+            <span class="s s-Atom">connection</span><span class="p">,</span> <span class="s s-Atom">address</span> <span class="o">=</span> <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">accept</span><span class="p">()</span>
+            <span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">setblocking</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">register</span><span class="p">(</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">(),</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLIN</span><span class="p">)</span>
+            <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="s s-Atom">connection</span>
+            <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="s s-Atom">b&#39;&#39;</span>
+            <span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="s s-Atom">response</span>
+         <span class="s s-Atom">elif</span> <span class="s s-Atom">event</span> <span class="s s-Atom">&amp;</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLIN</span><span class="s s-Atom">:</span>
+            <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+            <span class="s s-Atom">if</span> <span class="nv">EOL1</span> <span class="s s-Atom">in</span> <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span> <span class="s s-Atom">or</span> <span class="nv">EOL2</span> <span class="s s-Atom">in</span> <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span><span class="s s-Atom">:</span>
+               <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">modify</span><span class="p">(</span><span class="s s-Atom">fileno</span><span class="p">,</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLOUT</span><span class="p">)</span>
+               <span class="nf">print</span><span class="p">(</span><span class="s s-Atom">&#39;-&#39;</span><span class="o">*</span><span class="mi">40</span> <span class="o">+</span> <span class="s s-Atom">&#39;\n&#39;</span> <span class="o">+</span> <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">decode</span><span class="p">()[:-</span><span class="mi">2</span><span class="p">])</span>
+         <span class="s s-Atom">elif</span> <span class="s s-Atom">event</span> <span class="s s-Atom">&amp;</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLOUT</span><span class="s s-Atom">:</span>
+            <span class="s s-Atom">byteswritten</span> <span class="o">=</span> <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">send</span><span class="p">(</span><span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">])</span>
+            <span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span> <span class="o">=</span> <span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">][</span><span class="nn">byteswritten</span><span class="p">:]</span>
+            <span class="s s-Atom">if</span> <span class="nf">len</span><span class="p">(</span><span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="s s-Atom">:</span>
+               <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">modify</span><span class="p">(</span><span class="s s-Atom">fileno</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+               <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">shutdown</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SHUT_RDWR</span><span class="p">)</span>
+         <span class="s s-Atom">elif</span> <span class="s s-Atom">event</span> <span class="s s-Atom">&amp;</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLHUP</span><span class="s s-Atom">:</span>
+            <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">unregister</span><span class="p">(</span><span class="s s-Atom">fileno</span><span class="p">)</span>
+            <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">close</span><span class="p">()</span>
+            <span class="s s-Atom">del</span> <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span>
+<span class="nn">finally</span><span class="p">:</span>
+   <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">unregister</span><span class="p">(</span><span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">fileno</span><span class="p">())</span>
+   <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+   <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+</pre></div>
+
+
+<ul>
+<li>epoll有两种操作模式，称为边沿触发和水平触发 。在边沿触发模式中，epoll.poll（）在读或者写event在socket上面发生后，将只会返回一次event。调用epoll.poll()的程序必须处理所有和这个event相关的数据，随后的epoll.poll()调用不会再有这个event的通知。当一个特定event的数据耗尽时，进一步尝试操作socket将导致一个异常。相反，在水平触发模式下，重复调用epoll.poll（）会重复通知关注的event，直到与该event有关的所有数据都已被处理。在水平模式下通常没有异常。</li>
+<li>例如，假设一个服务端socket已经为一个epoll对象注册了读event。在边沿触发模式下，程序需要一直accept()新的socket连接，直到一个socket.error的异常发生。而在水平触发模式下，一个accept()调用后，epoll对象会被服务端socket再次询问是否有新的event，以确定下一个accept()是否应该被调用。</li>
+<li>示例3使用水平触发模式，这是操作的默认模式。示例4演示了如何使用边沿触发模式。</li>
+<li>在示例4中，第25，36和45行引入循环，直到出现异常才退出（或者所有其他已知的数据都被处理）。</li>
+<li>第32，38和48行捕获预期的socket异常。</li>
+<li>第16，28，41和51行添加EPOLLET掩码，用来设置为边沿触发模式。</li>
+</ul>
+<p><em>Example 4</em></p>
+<p>::::</p>
+<div class="highlight"><pre><span></span><span class="s s-Atom">import</span> <span class="s s-Atom">socket</span><span class="p">,</span> <span class="s s-Atom">select</span>
+
+<span class="nv">EOL1</span> <span class="o">=</span> <span class="s s-Atom">b&#39;\n\n&#39;</span>
+<span class="nv">EOL2</span> <span class="o">=</span> <span class="s s-Atom">b&#39;\n\r\n&#39;</span>
+<span class="s s-Atom">response</span>  <span class="o">=</span> <span class="s s-Atom">b&#39;HTTP/1.0 200 OK\r\nDate: Mon, 1 Jan 1996 01:01:01 GMT\r\n&#39;</span>
+<span class="s s-Atom">response</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">b&#39;Content-Type: text/plain\r\nContent-Length: 13\r\n\r\n&#39;</span>
+<span class="s s-Atom">response</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">b&#39;Hello, world!&#39;</span>
+
+<span class="s s-Atom">serversocket</span> <span class="o">=</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nf">socket</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">AF_INET</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SOCK_STREAM</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SOL_SOCKET</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">bind</span><span class="p">((</span><span class="s s-Atom">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">setblocking</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="s s-Atom">epoll</span> <span class="o">=</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nf">epoll</span><span class="p">()</span>
+<span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">register</span><span class="p">(</span><span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">fileno</span><span class="p">(),</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLIN</span> <span class="p">|</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLET</span><span class="p">)</span>
+
+<span class="nn">try</span><span class="p">:</span>
+   <span class="s s-Atom">connections</span> <span class="o">=</span> <span class="p">{};</span> <span class="s s-Atom">requests</span> <span class="o">=</span> <span class="p">{};</span> <span class="s s-Atom">responses</span> <span class="o">=</span> <span class="p">{}</span>
+   <span class="s s-Atom">while</span> <span class="nv">True</span><span class="s s-Atom">:</span>
+      <span class="s s-Atom">events</span> <span class="o">=</span> <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">poll</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="s s-Atom">for</span> <span class="s s-Atom">fileno</span><span class="p">,</span> <span class="s s-Atom">event</span> <span class="s s-Atom">in</span> <span class="nn">events</span><span class="p">:</span>
+         <span class="s s-Atom">if</span> <span class="s s-Atom">fileno</span> <span class="o">==</span> <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()</span><span class="s s-Atom">:</span>
+            <span class="nn">try</span><span class="p">:</span>
+               <span class="s s-Atom">while</span> <span class="nv">True</span><span class="s s-Atom">:</span>
+                  <span class="s s-Atom">connection</span><span class="p">,</span> <span class="s s-Atom">address</span> <span class="o">=</span> <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">accept</span><span class="p">()</span>
+                  <span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">setblocking</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                  <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">register</span><span class="p">(</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">(),</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLIN</span> <span class="p">|</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLET</span><span class="p">)</span>
+                  <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="s s-Atom">connection</span>
+                  <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="s s-Atom">b&#39;&#39;</span>
+                  <span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="s s-Atom">response</span>
+            <span class="s s-Atom">except</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nn">error</span><span class="p">:</span>
+               <span class="s s-Atom">pass</span>
+         <span class="s s-Atom">elif</span> <span class="s s-Atom">event</span> <span class="s s-Atom">&amp;</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLIN</span><span class="s s-Atom">:</span>
+            <span class="nn">try</span><span class="p">:</span>
+               <span class="s s-Atom">while</span> <span class="nv">True</span><span class="s s-Atom">:</span>
+                  <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+            <span class="s s-Atom">except</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nn">error</span><span class="p">:</span>
+               <span class="s s-Atom">pass</span>
+            <span class="s s-Atom">if</span> <span class="nv">EOL1</span> <span class="s s-Atom">in</span> <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span> <span class="s s-Atom">or</span> <span class="nv">EOL2</span> <span class="s s-Atom">in</span> <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span><span class="s s-Atom">:</span>
+               <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">modify</span><span class="p">(</span><span class="s s-Atom">fileno</span><span class="p">,</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLOUT</span> <span class="p">|</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLET</span><span class="p">)</span>
+               <span class="nf">print</span><span class="p">(</span><span class="s s-Atom">&#39;-&#39;</span><span class="o">*</span><span class="mi">40</span> <span class="o">+</span> <span class="s s-Atom">&#39;\n&#39;</span> <span class="o">+</span> <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">decode</span><span class="p">()[:-</span><span class="mi">2</span><span class="p">])</span>
+         <span class="s s-Atom">elif</span> <span class="s s-Atom">event</span> <span class="s s-Atom">&amp;</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLOUT</span><span class="s s-Atom">:</span>
+            <span class="nn">try</span><span class="p">:</span>
+               <span class="s s-Atom">while</span> <span class="nf">len</span><span class="p">(</span><span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="s s-Atom">:</span>
+                  <span class="s s-Atom">byteswritten</span> <span class="o">=</span> <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">send</span><span class="p">(</span><span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">])</span>
+                  <span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span> <span class="o">=</span> <span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">][</span><span class="nn">byteswritten</span><span class="p">:]</span>
+            <span class="s s-Atom">except</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nn">error</span><span class="p">:</span>
+               <span class="s s-Atom">pass</span>
+            <span class="s s-Atom">if</span> <span class="nf">len</span><span class="p">(</span><span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="s s-Atom">:</span>
+               <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">modify</span><span class="p">(</span><span class="s s-Atom">fileno</span><span class="p">,</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLET</span><span class="p">)</span>
+               <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">shutdown</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SHUT_RDWR</span><span class="p">)</span>
+         <span class="s s-Atom">elif</span> <span class="s s-Atom">event</span> <span class="s s-Atom">&amp;</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLHUP</span><span class="s s-Atom">:</span>
+            <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">unregister</span><span class="p">(</span><span class="s s-Atom">fileno</span><span class="p">)</span>
+            <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">close</span><span class="p">()</span>
+            <span class="s s-Atom">del</span> <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span>
+<span class="nn">finally</span><span class="p">:</span>
+   <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">unregister</span><span class="p">(</span><span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">fileno</span><span class="p">())</span>
+   <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+   <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+</pre></div>
+
+
+<ul>
+<li>这两种模式是类似的，水平触发模式常被用在移植使用select或者poll机制的应用程序时，而边沿触发模式可以用在当程序员不需要或不想要操作系统协助管理event状态时。</li>
+<li>除了这两种操作模式，epoll对象也可以注册socket使用EPOLLONESHOTevent掩码。当使用这个选项时，注册的event只适用于一个epoll.poll()调用，调用之后它会自动从被监视的socket注册列表中移除。</li>
+</ul>
+<p>性能注意事项</p>
+<p>监听缓冲区队列大小</p>
+<p>在示例1-4中:</p>
+<ul>
+<li>第12行都调用了serversocket.listen()方法。此方法的参数就是监听缓冲区队列的大小。它告诉操作系统可以接收多少TCP/IP连接，并放到缓冲区队列中等待Pytohn程序接收。Python程序每次在服务端socket上面调用accept()，就会有一个连接从缓冲区队列中移除，一个新的连接可以进入缓冲区队列。如果队列已满，新的连接都会被忽略，这会对网络连接的客户端造成不必要的延迟。在生产服务器上，通常要处理几十或几百个并发连接，所以值1通常是不够的。比如，当使用ab模拟100个并发HTTP 1.0客户端，对上面的几个示例进行负载测试，如果缓冲区队列的值小于50，就会引起性能下降。</li>
+</ul>
+<p>TCP选项</p>
+<ul>
+<li><a href="https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Fwww.baus.net%252Fon-tcp_cork%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNGj99pcsG7FWuggh3EzvssrQ7QRDA&amp;sa=D&amp;ust=1492174612151000&amp;usg=AFQjCNEeO0I3AO1H0LCdeJrFSrjSESOR4g">TCP_CORK</a>选项可以用来“封存”消息，直到他们准备好发送。</li>
+<li>如示例5的第34行和第40行所示，这个选项对于使用<a href="https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Fen.wikipedia.org%252Fwiki%252FHTTP_pipelining%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNHC_dwCO2hlYoxtao0o8Q6_BhY3gw&amp;sa=D&amp;ust=1492174612151000&amp;usg=AFQjCNGZL-Ju6rdPXXydcSBV2-ANQap0lA">HTTP/1.1流水线技术</a>的HTTP服务端来说，可能是一个很好的选择。</li>
+</ul>
+<p><em>Example 5</em></p>
+<p>::::</p>
+<div class="highlight"><pre><span></span><span class="s s-Atom">import</span> <span class="s s-Atom">socket</span><span class="p">,</span> <span class="s s-Atom">select</span>
+
+<span class="nv">EOL1</span> <span class="o">=</span> <span class="s s-Atom">b&#39;\n\n&#39;</span>
+<span class="nv">EOL2</span> <span class="o">=</span> <span class="s s-Atom">b&#39;\n\r\n&#39;</span>
+<span class="s s-Atom">response</span>  <span class="o">=</span> <span class="s s-Atom">b&#39;HTTP/1.0 200 OK\r\nDate: Mon, 1 Jan 1996 01:01:01 GMT\r\n&#39;</span>
+<span class="s s-Atom">response</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">b&#39;Content-Type: text/plain\r\nContent-Length: 13\r\n\r\n&#39;</span>
+<span class="s s-Atom">response</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">b&#39;Hello, world!&#39;</span>
+
+<span class="s s-Atom">serversocket</span> <span class="o">=</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nf">socket</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">AF_INET</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SOCK_STREAM</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SOL_SOCKET</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">bind</span><span class="p">((</span><span class="s s-Atom">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">setblocking</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="s s-Atom">epoll</span> <span class="o">=</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nf">epoll</span><span class="p">()</span>
+<span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">register</span><span class="p">(</span><span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">fileno</span><span class="p">(),</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLIN</span><span class="p">)</span>
+
+<span class="nn">try</span><span class="p">:</span>
+    <span class="s s-Atom">connections</span> <span class="o">=</span> <span class="p">{};</span> <span class="s s-Atom">requests</span> <span class="o">=</span> <span class="p">{};</span> <span class="s s-Atom">responses</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="s s-Atom">while</span> <span class="nv">True</span><span class="s s-Atom">:</span>
+        <span class="s s-Atom">events</span> <span class="o">=</span> <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">poll</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="s s-Atom">for</span> <span class="s s-Atom">fileno</span><span class="p">,</span> <span class="s s-Atom">event</span> <span class="s s-Atom">in</span> <span class="nn">events</span><span class="p">:</span>
+            <span class="s s-Atom">if</span> <span class="s s-Atom">fileno</span> <span class="o">==</span> <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()</span><span class="s s-Atom">:</span>
+                <span class="s s-Atom">connection</span><span class="p">,</span> <span class="s s-Atom">address</span> <span class="o">=</span> <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">accept</span><span class="p">()</span>
+                <span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">setblocking</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">register</span><span class="p">(</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">(),</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLIN</span><span class="p">)</span>
+                <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="s s-Atom">connection</span>
+                <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="s s-Atom">b&#39;&#39;</span>
+                <span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="s s-Atom">response</span>
+            <span class="s s-Atom">elif</span> <span class="s s-Atom">event</span> <span class="s s-Atom">&amp;</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLIN</span><span class="s s-Atom">:</span>
+                <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+                <span class="s s-Atom">if</span> <span class="nv">EOL1</span> <span class="s s-Atom">in</span> <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span> <span class="s s-Atom">or</span> <span class="nv">EOL2</span> <span class="s s-Atom">in</span> <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span><span class="s s-Atom">:</span>
+                    <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">modify</span><span class="p">(</span><span class="s s-Atom">fileno</span><span class="p">,</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLOUT</span><span class="p">)</span>
+                    <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">setsockopt</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">IPPROTO_TCP</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">TCP_CORK</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="nf">print</span><span class="p">(</span><span class="s s-Atom">&#39;-&#39;</span><span class="o">*</span><span class="mi">40</span> <span class="o">+</span> <span class="s s-Atom">&#39;\n&#39;</span> <span class="o">+</span> <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">decode</span><span class="p">()[:-</span><span class="mi">2</span><span class="p">])</span>
+            <span class="s s-Atom">elif</span> <span class="s s-Atom">event</span> <span class="s s-Atom">&amp;</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLOUT</span><span class="s s-Atom">:</span>
+                <span class="s s-Atom">byteswritten</span> <span class="o">=</span> <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">send</span><span class="p">(</span><span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">])</span>
+                <span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span> <span class="o">=</span> <span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">][</span><span class="nn">byteswritten</span><span class="p">:]</span>
+                <span class="s s-Atom">if</span> <span class="nf">len</span><span class="p">(</span><span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="s s-Atom">:</span>
+                    <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">setsockopt</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">IPPROTO_TCP</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">TCP_CORK</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">modify</span><span class="p">(</span><span class="s s-Atom">fileno</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">shutdown</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SHUT_RDWR</span><span class="p">)</span>
+             <span class="s s-Atom">elif</span> <span class="s s-Atom">event</span> <span class="s s-Atom">&amp;</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLHUP</span><span class="s s-Atom">:</span>
+                 <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">unregister</span><span class="p">(</span><span class="s s-Atom">fileno</span><span class="p">)</span>
+                 <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">close</span><span class="p">()</span>
+                 <span class="s s-Atom">del</span> <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span>
+<span class="nn">finally</span><span class="p">:</span>
+    <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">unregister</span><span class="p">(</span><span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">fileno</span><span class="p">())</span>
+    <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+    <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+</pre></div>
+
+
+<p>另一方面， <a href="https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Farticles.techrepublic.com.com%252F5100-10878_11-1050878.html%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNGFnQxhZ9P4LjSiE2OpY3PA6dNsjQ&amp;sa=D&amp;ust=1492174612166000&amp;usg=AFQjCNHMp_FQGZdNm-OcnGx9Mud6mdQxsw">TCP_NODELAY</a>选项可以用来告诉操作系统，任何传递给socket.send()的数据，不再缓存，要立即发送给客户端。
+如示例6的14行所示，这个选项对于使用一个SSH客户端或其他“实时”应用来说，可能是一个很好的选择。</p>
+<p><em>Example 6</em></p>
+<p>::::</p>
+<div class="highlight"><pre><span></span><span class="s s-Atom">import</span> <span class="s s-Atom">socket</span><span class="p">,</span> <span class="s s-Atom">select</span>
+
+<span class="nv">EOL1</span> <span class="o">=</span> <span class="s s-Atom">b&#39;\n\n&#39;</span>
+<span class="nv">EOL2</span> <span class="o">=</span> <span class="s s-Atom">b&#39;\n\r\n&#39;</span>
+<span class="s s-Atom">response</span>  <span class="o">=</span> <span class="s s-Atom">b&#39;HTTP/1.0 200 OK\r\nDate: Mon, 1 Jan 1996 01:01:01 GMT\r\n&#39;</span>
+<span class="s s-Atom">response</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">b&#39;Content-Type: text/plain\r\nContent-Length: 13\r\n\r\n&#39;</span>
+<span class="s s-Atom">response</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">b&#39;Hello, world!&#39;</span>
+
+<span class="s s-Atom">serversocket</span> <span class="o">=</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nf">socket</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">AF_INET</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SOCK_STREAM</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SOL_SOCKET</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">bind</span><span class="p">((</span><span class="s s-Atom">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">setblocking</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">IPPROTO_TCP</span><span class="p">,</span> <span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">TCP_NODELAY</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="s s-Atom">epoll</span> <span class="o">=</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nf">epoll</span><span class="p">()</span>
+<span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">register</span><span class="p">(</span><span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">fileno</span><span class="p">(),</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLIN</span><span class="p">)</span>
+
+<span class="nn">try</span><span class="p">:</span>
+   <span class="s s-Atom">connections</span> <span class="o">=</span> <span class="p">{};</span> <span class="s s-Atom">requests</span> <span class="o">=</span> <span class="p">{};</span> <span class="s s-Atom">responses</span> <span class="o">=</span> <span class="p">{}</span>
+   <span class="s s-Atom">while</span> <span class="nv">True</span><span class="s s-Atom">:</span>
+      <span class="s s-Atom">events</span> <span class="o">=</span> <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">poll</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="s s-Atom">for</span> <span class="s s-Atom">fileno</span><span class="p">,</span> <span class="s s-Atom">event</span> <span class="s s-Atom">in</span> <span class="nn">events</span><span class="p">:</span>
+         <span class="s s-Atom">if</span> <span class="s s-Atom">fileno</span> <span class="o">==</span> <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()</span><span class="s s-Atom">:</span>
+            <span class="s s-Atom">connection</span><span class="p">,</span> <span class="s s-Atom">address</span> <span class="o">=</span> <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">accept</span><span class="p">()</span>
+            <span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">setblocking</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">register</span><span class="p">(</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">(),</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLIN</span><span class="p">)</span>
+            <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="s s-Atom">connection</span>
+            <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="s s-Atom">b&#39;&#39;</span>
+            <span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">connection</span><span class="p">.</span><span class="nf">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="s s-Atom">response</span>
+         <span class="s s-Atom">elif</span> <span class="s s-Atom">event</span> <span class="s s-Atom">&amp;</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLIN</span><span class="s s-Atom">:</span>
+            <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+            <span class="s s-Atom">if</span> <span class="nv">EOL1</span> <span class="s s-Atom">in</span> <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span> <span class="s s-Atom">or</span> <span class="nv">EOL2</span> <span class="s s-Atom">in</span> <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span><span class="s s-Atom">:</span>
+               <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">modify</span><span class="p">(</span><span class="s s-Atom">fileno</span><span class="p">,</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLOUT</span><span class="p">)</span>
+               <span class="nf">print</span><span class="p">(</span><span class="s s-Atom">&#39;-&#39;</span><span class="o">*</span><span class="mi">40</span> <span class="o">+</span> <span class="s s-Atom">&#39;\n&#39;</span> <span class="o">+</span> <span class="s s-Atom">requests</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">decode</span><span class="p">()[:-</span><span class="mi">2</span><span class="p">])</span>
+         <span class="s s-Atom">elif</span> <span class="s s-Atom">event</span> <span class="s s-Atom">&amp;</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLOUT</span><span class="s s-Atom">:</span>
+            <span class="s s-Atom">byteswritten</span> <span class="o">=</span> <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">send</span><span class="p">(</span><span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">])</span>
+            <span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span> <span class="o">=</span> <span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">][</span><span class="nn">byteswritten</span><span class="p">:]</span>
+            <span class="s s-Atom">if</span> <span class="nf">len</span><span class="p">(</span><span class="s s-Atom">responses</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="s s-Atom">:</span>
+               <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">modify</span><span class="p">(</span><span class="s s-Atom">fileno</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+               <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">shutdown</span><span class="p">(</span><span class="s s-Atom">socket</span><span class="p">.</span><span class="nv">SHUT_RDWR</span><span class="p">)</span>
+         <span class="s s-Atom">elif</span> <span class="s s-Atom">event</span> <span class="s s-Atom">&amp;</span> <span class="s s-Atom">select</span><span class="p">.</span><span class="nv">EPOLLHUP</span><span class="s s-Atom">:</span>
+            <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">unregister</span><span class="p">(</span><span class="s s-Atom">fileno</span><span class="p">)</span>
+            <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">].</span><span class="nf">close</span><span class="p">()</span>
+            <span class="s s-Atom">del</span> <span class="s s-Atom">connections</span><span class="p">[</span><span class="s s-Atom">fileno</span><span class="p">]</span>
+<span class="nn">finally</span><span class="p">:</span>
+   <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">unregister</span><span class="p">(</span><span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">fileno</span><span class="p">())</span>
+   <span class="s s-Atom">epoll</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+   <span class="s s-Atom">serversocket</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+</pre></div>
+
+
+<p>此页面上的示例不受版权限制，这里提供<a href="https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Fscotdoyle.com%252Fpython-epoll-examples.tar.gz%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNGj_7emPC51_la_-A-aXVXjlf-smw&amp;sa=D&amp;ust=1492174612183000&amp;usg=AFQjCNHpaApFNrHLzYWBQ5FBsBrOt8KcYg">下载</a> 。</p>
+<p><a href="https://docs.google.com/document/pub?id=1kH6JKRgAo6BDC3voKInN4TrSgqC0VVs9Op80xl5xGxw&amp;pli=1#h.jaxt035lm50">文档出自这里</a></p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="http://puluto.github.io/tag/python.html">python</a>
+      <a href="http://puluto.github.io/tag/linux.html">linux</a>
+    </p>
+  </div>
+
+
+
+
+</article>
+
+    <footer>
+<p>
+  &copy; Puluto 2016 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63906522-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Thinking ",
+  "url" : "http://puluto.github.io",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>

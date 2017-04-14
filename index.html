@@ -279,6 +279,55 @@ pip install celery-with-redis …</pre></div>
       <a class="btn" href="http://puluto.github.io/saltstackru-men.html#saltstackru-men">    Continue reading
 </a>
   </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="http://puluto.github.io/zai-pythonzhong-ru-he-shi-yong-linuxde-epoll.html#zai-pythonzhong-ru-he-shi-yong-linuxde-epoll">在Python中如何使用Linux的epoll</a></h2>
+    <p>
+          Posted on 2015-01-03(Sat) in <a href="http://puluto.github.io/category/bing-fa-bian-cheng.html">并发编程</a>
+
+
+
+        &#8226; 3 min read
+    </p>
+  </header>
+  <div>
+      <p><a href="https://docs.google.com/document/pub?id=1kH6JKRgAo6BDC3voKInN4TrSgqC0VVs9Op80xl5xGxw&amp;pli=1#h.jaxt035lm50">文档出自这里</a></p>
+<p>从2.6开始，<a href="https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Fwww.python.org%252F%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNEP7etIfXhra1IhmVJRuJJxa6wRxQ&amp;sa=D&amp;ust=1492174612025000&amp;usg=AFQjCNE-rZG5tzCHiQTrmFdLvZX32GChRw">Python</a>包含了访问Linux epoll库的API。这篇文章用几个简单的python 3例子来展示下这个API。欢迎大家质疑和<a href="http://scotdoyle.com">反馈</a>。</p>
+<h1>阻塞socket编程示例</h1>
+<h2>示例1</h2>
+<ul>
+<li>
+<p>用python3.0搭建了一个简单的服务：在8080端口监听HTTP请求，把它打印到控制台，并返回一个HTTP响应消息给客户端。</p>
+</li>
+<li>
+<p>第9行：创建服务器socket。</p>
+</li>
+<li>
+<p>第10行：允许在11行使用bind()来监听指定端口，即使这个端口最近被其他程序监听。没有这个设置的话，服务不能运行，直到一两分钟后，这个端口不再被之前的程序使用。</p>
+</li>
+<li>
+<p>第11行：监听这台机器所有可用的IPv4地址上面的8080端口。</p>
+</li>
+<li>
+<p>第12行：通知服务端socket开始接受来自客户端的连接。</p>
+</li>
+<li>
+<p>第14行：这行代码直到接收到一个客户端连接才会完成。这时，服务端socket会在服务端机器上面创建一个新的socket，用来和客户端通信。这个新的socket在代码里面就是accept()调用返回的clientconnection 对象。返回的address对象代表着客户端的IP和端口。</p>
+</li>
+<li>
+<p>第15-17行：组装从客户端传输过来的数据，直到HTTP请求完成。HTTP协议可以参考<a href="https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Fwww.jmarshall.com%252Feasy%252Fhttp%252F%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNH8eRESrpc9ojWqF2YSsIPP1_oRDw&amp;sa=D&amp;ust=1492174612032000&amp;usg=AFQjCNFpPTnjdlpCWoP-zbtXRB8gTak09w">这里</a>。</p>
+</li>
+<li>
+<p>第18行：把请求打印到控制台，验证操作是否正确。</p>
+</li>
+<li>
+<p>第19行：发送响应回客户端 …</p></li></ul>
+      <br>
+      <a class="btn" href="http://puluto.github.io/zai-pythonzhong-ru-he-shi-yong-linuxde-epoll.html#zai-pythonzhong-ru-he-shi-yong-linuxde-epoll">    Continue reading
+</a>
+  </div>
 </article>
 
   <div class="pagination">
