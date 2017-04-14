@@ -1,3 +1,9 @@
+Title: 在Python中如何使用Linux的epoll
+Date: 2017-04-14 21:20
+Tags: python, linux
+Category: 并发编程
+
+
 [文档出自这里](https://docs.google.com/document/pub?id=1kH6JKRgAo6BDC3voKInN4TrSgqC0VVs9Op80xl5xGxw&pli=1#h.jaxt035lm50)
 
 从2.6开始，[Python](https://www.google.com/url?q=http://www.google.com/url?q%3Dhttp%253A%252F%252Fwww.python.org%252F%26sa%3DD%26sntz%3D1%26usg%3DAFQjCNEP7etIfXhra1IhmVJRuJJxa6wRxQ&sa=D&ust=1492174612025000&usg=AFQjCNE-rZG5tzCHiQTrmFdLvZX32GChRw)包含了访问Linux epoll库的API。这篇文章用几个简单的python 3例子来展示下这个API。欢迎大家质疑和[反馈](http://scotdoyle.com)。
@@ -29,8 +35,7 @@
 
 *Example 1 (All examples use Python 3)*
     
-::::
-
+    :::python
     import socket
 
     EOL1 = b'\n\n'
@@ -60,8 +65,7 @@
 
 *Example 2*
 
-::::
-
+    :::python
     import socket
     
     EOL1 = b'\n\n'
@@ -138,8 +142,7 @@
 
 *Example 3*
 
-::::
-
+    :::python
     import socket, select
   
     EOL1 = b'\n\n'
@@ -198,8 +201,7 @@
 
 *Example 4*
 
-::::
-  
+    :::python
     import socket, select
     
     EOL1 = b'\n\n'
@@ -279,8 +281,7 @@ TCP选项
 
 *Example 5*
 
-::::
-
+    :::python
     import socket, select
  
     EOL1 = b'\n\n'
@@ -337,8 +338,7 @@ TCP选项
 
 *Example 6*
 
-::::
- 
+    :::python
     import socket, select
  
     EOL1 = b'\n\n'
