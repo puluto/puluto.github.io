@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://puluto.github.io/</loc>
-<lastmod>2017-03-26T02:15:59-00:00</lastmod>
+<lastmod>2017-04-14T21:14:56-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>http://puluto.github.io/archives.html</loc>
-<lastmod>2017-03-26T02:15:59-00:00</lastmod>
+<lastmod>2017-04-14T21:14:56-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>http://puluto.github.io/tags.html</loc>
-<lastmod>2017-03-26T02:15:59-00:00</lastmod>
+<lastmod>2017-04-14T21:14:56-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>http://puluto.github.io/categories.html</loc>
-<lastmod>2017-03-26T02:15:59-00:00</lastmod>
+<lastmod>2017-04-14T21:14:56-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
