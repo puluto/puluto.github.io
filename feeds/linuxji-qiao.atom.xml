@@ -1,5 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Thinking - Linux技巧</title><link href="http://puluto.github.io/" rel="alternate"></link><link href="http://puluto.github.io/feeds/linuxji-qiao.atom.xml" rel="self"></link><id>http://puluto.github.io/</id><updated>2016-11-25T18:52:00+08:00</updated><entry><title>测试文档</title><link href="http://puluto.github.io/ce-shi-wen-dang.html" rel="alternate"></link><published>2016-11-25T18:52:00+08:00</published><updated>2016-11-25T18:52:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2016-11-25:/ce-shi-wen-dang.html</id><summary type="html">&lt;h3&gt;单独获取当前目录名&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Thinking - Linux技巧</title><link href="http://puluto.github.io/" rel="alternate"></link><link href="http://puluto.github.io/feeds/linuxji-qiao.atom.xml" rel="self"></link><id>http://puluto.github.io/</id><updated>2017-05-09T10:04:00+08:00</updated><entry><title>Ubuntu 14.04配置Windows域访问openvpn</title><link href="http://puluto.github.io/ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn.html" rel="alternate"></link><published>2017-05-09T10:04:00+08:00</published><updated>2017-05-09T10:04:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2017-05-09:/ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn.html</id><summary type="html">&lt;h2&gt;安装openvpn和openvpn ldap 插件&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install openvpn-auth-ldap easy-rsa -y
+sudo cp /usr/share/doc/openvpn-auth-ldap/examples/auth-ldap.conf /etc/openvpn/
+sudo cp /usr/share/doc/openvpn/examples/sample-config-files/* /etc/openvpn/
+&lt;span class="nb"&gt;cd&lt;/span&gt; /etc/openvpn
+sudo gunzip server.conf.gz
+sudo cp server.conf server.conf.bak
+
+&lt;span class="c1"&gt;# 进入/etc/openvpn/easy-rsa目录配置服务器证书&lt;/span&gt;
+&lt;span class="nb"&gt;source …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;h2&gt;安装openvpn和openvpn ldap 插件&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install openvpn-auth-ldap easy-rsa -y
+sudo cp /usr/share/doc/openvpn-auth-ldap/examples/auth-ldap.conf /etc/openvpn/
+sudo cp /usr/share/doc/openvpn/examples/sample-config-files/* /etc/openvpn/
+&lt;span class="nb"&gt;cd&lt;/span&gt; /etc/openvpn
+sudo gunzip server.conf.gz
+sudo cp server.conf server.conf.bak
+
+&lt;span class="c1"&gt;# 进入/etc/openvpn/easy-rsa目录配置服务器证书&lt;/span&gt;
+&lt;span class="nb"&gt;source&lt;/span&gt; ./vars                       &lt;span class="c1"&gt;# vars可以配置证书信息，也可以用默认的&lt;/span&gt;
+./clean-all
+./build-dh                      &lt;span class="c1"&gt;# 生成dh pem文件&lt;/span&gt;
+./pkitool --initca              &lt;span class="c1"&gt;# 生成ca根证书&lt;/span&gt;
+./pkitool --server myserver &lt;span class="c1"&gt;# 生成server证书&lt;/span&gt;
+./pkitool client1               &lt;span class="c1"&gt;# 生成客户端证书，这里可以不需要，LDAP为密码认证&lt;/span&gt;
+./pkitool --pass client2        &lt;span class="c1"&gt;# 签名客户端证书&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;按下面的内容配置server.conf&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;port 1195
+dev tun
+mode server
+tls-server
+ca keys/ca.crt
+cert keys/server.crt
+key keys/server.key
+dh keys/dh1024.pem
+ifconfig 10.9.0.1 10.9.0.2
+ifconfig-pool 10.9.0.4 10.9.0.255
+push &amp;quot;route 10.9.0.1 255.255.255.255&amp;quot;
+push &amp;quot;route 10.16.16.0 255.255.255.0&amp;quot;
+keepalive 10 60
+inactive 600
+route 10.9.0.0 255.255.255.0
+user openvpn
+group openvpn
+persist-tun
+persist-key
+verb 4
+plugin /usr/lib/openvpn/plugin/lib/openvpn-auth-ldap.so &amp;quot;/etc/openvpn/auth/ldap.conf&amp;quot;
+client-cert-not-required
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;根据下面示例配置AD认证 /etc/openvpn/auth/ldap.conf&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# 一般使用AD访问的时候可以不用配置TLS加密，所以TLS相关的项目都可以注释掉，保留TLS关闭项
+&lt;span class="nt"&gt;&amp;lt;LDAP&amp;gt;&lt;/span&gt;
+# LDAP server URL
+URL ldap://dc-test-1.test.com:389
+# Bind DN (If your LDAP server doesn&amp;#39;t support anonymous binds)
+#BindDN uid=admin,ou=Users,dc=test,dc=com
+BindDN admin@test.com
+
+# Bind Password
+Password humus
+
+# Network timeout (in seconds)
+Timeout 15
+
+# Enable Start TLS
+# If not use TLS，please keep this.
+TLSEnable no
+
+# Follow LDAP Referrals (anonymously)
+FollowReferrals yes
+
+# TLS CA Certificate File
+TLSCACertFile /usr/local/etc/ssl/ca.pem
+
+# TLS CA Certificate Directory
+TLSCACertDir /etc/ssl/certs
+
+# Client Certificate and key
+# If TLS client authentication is required
+TLSCertFile /usr/local/etc/ssl/client-cert.pem
+TLSKeyFile /usr/local/etc/ssl/client-key.pem
+
+# Cipher Suite
+# The defaults are usually fine here
+# TLSCipherSuite ALL:!ADH:@STRENGTH
+&lt;span class="nt"&gt;&amp;lt;/LDAP&amp;gt;&lt;/span&gt;
+
+&lt;span class="nt"&gt;&amp;lt;Authorization&amp;gt;&lt;/span&gt;
+# Base DN
+#BaseDN &amp;quot;CN=Users,DC=test,DC=com&amp;quot;
+BaseDN &amp;quot;CN=Users,DC=test,DC=com&amp;quot;
+
+# User Search Filter
+#SearchFilter &amp;quot;(&lt;span class="err"&gt;&amp;amp;&lt;/span&gt;(uid=%u)(accountStatus=active))&amp;quot;
+#SearchFilter &amp;quot;(&lt;span class="err"&gt;&amp;amp;&lt;/span&gt;(sAMAccountName=%u)(msNPAllowDialin=TRUE))&amp;quot;
+SearchFilter &amp;quot;(&lt;span class="err"&gt;&amp;amp;&lt;/span&gt;(sAMAccountName=%u))&amp;quot;
+
+# Require Group Membership
+RequireGroup true
+
+# Add non-group members to a PF table (disabled)
+#PFTable ips_vpn_users
+
+&lt;span class="nt"&gt;&amp;lt;Group&amp;gt;&lt;/span&gt;
+BaseDN &amp;quot;CN=Users,DC=test,DC=com&amp;quot;
+SearchFilter &amp;quot;(cn=vpn-users)&amp;quot;
+MemberAttribute &amp;quot;member&amp;quot;
+# Add group members to a PF table (disabled)
+#PFTable ips_vpn_eng
+&lt;span class="nt"&gt;&amp;lt;/Group&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/Authorization&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;开启openvpn server服务&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# 编辑/etc/default/openvpn文件，添加AUTOSTART=&amp;quot;server&amp;quot;，openvpn服务器配置为server.conf&lt;/span&gt;
+&lt;span class="c1"&gt;# 就可以使用服务管理来控制openvpn服务器了&lt;/span&gt;
+
+service openvpn start
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;客户端配置文件，需要下载服务器的ca.crt到配置文件同一目录&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;float
+port 1195
+dev tun
+remote 127.43.22.12
+ping 10
+persist-tun
+persist-key
+ca ca.crt
+auth-user-pass
+client
+verb 4
+&lt;/pre&gt;&lt;/div&gt;</content><category term="linux"></category><category term="vpn"></category></entry><entry><title>测试文档</title><link href="http://puluto.github.io/ce-shi-wen-dang.html" rel="alternate"></link><published>2016-11-25T18:52:00+08:00</published><updated>2016-11-25T18:52:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2016-11-25:/ce-shi-wen-dang.html</id><summary type="html">&lt;h3&gt;单独获取当前目录名&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;name&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getcwd&lt;/span&gt;&lt;span class="p"&gt;())[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;

@@ -31,7 +31,7 @@
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://puluto.github.io"/>
 
-  <title>Thinking &ndash;     Tags
+  <title>Thinking &ndash;     Tag vpn
 </title>
 
 </head>
@@ -75,23 +75,41 @@
 
     </nav>
 
-<article class="single">
+
+
+<article>
   <header>
-    <h1>    Tags
-</h1>
+    <h2><a href="http://puluto.github.io/ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn.html#ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn">Ubuntu 14.04配置Windows域访问openvpn</a></h2>
+    <p>
+          Posted on 2017-05-09(Tue) in <a href="http://puluto.github.io/category/linuxji-qiao.html">Linux技巧</a>
+
+
+
+        &#8226; 2 min read
+    </p>
   </header>
   <div>
-    <ul class="list">          <li><a href="http://puluto.github.io/tag/celery.html">celery</a> (1)</li>
-          <li><a href="http://puluto.github.io/tag/docker.html">docker</a> (2)</li>
-          <li><a href="http://puluto.github.io/tag/hotplug.html">hotplug</a> (1)</li>
-          <li><a href="http://puluto.github.io/tag/linux.html">linux</a> (5)</li>
-          <li><a href="http://puluto.github.io/tag/ming-ling.html">命令</a> (2)</li>
-          <li><a href="http://puluto.github.io/tag/python.html">python</a> (4)</li>
-          <li><a href="http://puluto.github.io/tag/saltstack.html">saltstack</a> (1)</li>
-          <li><a href="http://puluto.github.io/tag/vpn.html">vpn</a> (1)</li>
-    </ul>
+      <h2>安装openvpn和openvpn ldap 插件</h2>
+<div class="highlight"><pre><span></span>sudo apt-get install openvpn-auth-ldap easy-rsa -y
+sudo cp /usr/share/doc/openvpn-auth-ldap/examples/auth-ldap.conf /etc/openvpn/
+sudo cp /usr/share/doc/openvpn/examples/sample-config-files/* /etc/openvpn/
+<span class="nb">cd</span> /etc/openvpn
+sudo gunzip server.conf.gz
+sudo cp server.conf server.conf.bak
+
+<span class="c1"># 进入/etc/openvpn/easy-rsa目录配置服务器证书</span>
+<span class="nb">source …</span></pre></div>
+      <br>
+      <a class="btn" href="http://puluto.github.io/ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn.html#ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn">    Continue reading
+</a>
   </div>
 </article>
+
+  <div class="pagination">
+  </div>
+
+
+
 
     <footer>
 <p>

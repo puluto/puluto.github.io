@@ -79,6 +79,34 @@
 
 <article>
   <header>
+    <h2><a href="http://puluto.github.io/ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn.html#ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn">Ubuntu 14.04配置Windows域访问openvpn</a></h2>
+    <p>
+          Posted on 2017-05-09(Tue) in <a href="http://puluto.github.io/category/linuxji-qiao.html">Linux技巧</a>
+
+
+
+        &#8226; 2 min read
+    </p>
+  </header>
+  <div>
+      <h2>安装openvpn和openvpn ldap 插件</h2>
+<div class="highlight"><pre><span></span>sudo apt-get install openvpn-auth-ldap easy-rsa -y
+sudo cp /usr/share/doc/openvpn-auth-ldap/examples/auth-ldap.conf /etc/openvpn/
+sudo cp /usr/share/doc/openvpn/examples/sample-config-files/* /etc/openvpn/
+<span class="nb">cd</span> /etc/openvpn
+sudo gunzip server.conf.gz
+sudo cp server.conf server.conf.bak
+
+<span class="c1"># 进入/etc/openvpn/easy-rsa目录配置服务器证书</span>
+<span class="nb">source …</span></pre></div>
+      <br>
+      <a class="btn" href="http://puluto.github.io/ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn.html#ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
     <h2><a href="http://puluto.github.io/ce-shi-wen-dang.html#ce-shi-wen-dang">测试文档</a></h2>
     <p>
           Posted on 2016-11-25(Fri) in <a href="http://puluto.github.io/category/linuxji-qiao.html">Linux技巧</a>

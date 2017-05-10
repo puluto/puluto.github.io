@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="http://puluto.github.io/static/custom.css" rel="stylesheet">
+
+    <link href="http://puluto.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Thinking Atom">
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Puluto" />
+<meta name="description" content="安装openvpn和openvpn ldap 插件 sudo apt-get install openvpn-auth-ldap easy-rsa -y sudo cp /usr/share/doc/openvpn-auth-ldap/examples/auth-ldap.conf /etc/openvpn/ sudo cp /usr/share/doc/openvpn/examples/sample-config-files/* /etc/openvpn/ cd /etc/openvpn sudo gunzip server.conf.gz sudo cp server.conf server.conf.bak # 进入/etc/openvpn/easy-rsa目录配置服务器证书 source …" />
+<meta name="keywords" content="linux, vpn">
+<meta property="og:site_name" content="Thinking"/>
+<meta property="og:title" content="Ubuntu 14.04配置Windows域访问openvpn"/>
+<meta property="og:description" content="安装openvpn和openvpn ldap 插件 sudo apt-get install openvpn-auth-ldap easy-rsa -y sudo cp /usr/share/doc/openvpn-auth-ldap/examples/auth-ldap.conf /etc/openvpn/ sudo cp /usr/share/doc/openvpn/examples/sample-config-files/* /etc/openvpn/ cd /etc/openvpn sudo gunzip server.conf.gz sudo cp server.conf server.conf.bak # 进入/etc/openvpn/easy-rsa目录配置服务器证书 source …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://puluto.github.io/ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2017-05-09 10:04:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://puluto.github.io/author/puluto.html">
+<meta property="article:section" content="Linux技巧"/>
+<meta property="article:tag" content="linux"/>
+<meta property="article:tag" content="vpn"/>
+<meta property="og:image" content="">
+
+  <title>Thinking &ndash; Ubuntu 14.04配置Windows域访问openvpn</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://puluto.github.io">
+        <img src="http://puluto.github.io/theme/img/profile.png" alt="Puluto" title="Puluto">
+      </a>
+      <h1><a href="http://puluto.github.io">Puluto</a></h1>
+
+<p>更新很慢的博客，关于自己研究的一些东西</p>
+      <nav>
+        <ul class="list">
+          <li><a href="http://puluto.github.io/pages/about-me.html#about-me">About me</a></li>
+
+          <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-GITHUB" href="https://github.com/puluto" target="_blank"><i class="fa fa-GITHUB"></i></a></li>
+        <li><a class="sc-微博" href="http://weibo.com/u/1871671127" target="_blank"><i class="fa fa-微博"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="http://puluto.github.io">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="http://puluto.github.io/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn">Ubuntu 14.04配置Windows域访问openvpn</h1>
+    <p>
+          Posted on 2017-05-09(Tue) in <a href="http://puluto.github.io/category/linuxji-qiao.html">Linux技巧</a>
+
+
+        &#8226; 2 min read
+    </p>
+  </header>
+
+
+  <div>
+    <h2>安装openvpn和openvpn ldap 插件</h2>
+<div class="highlight"><pre><span></span>sudo apt-get install openvpn-auth-ldap easy-rsa -y
+sudo cp /usr/share/doc/openvpn-auth-ldap/examples/auth-ldap.conf /etc/openvpn/
+sudo cp /usr/share/doc/openvpn/examples/sample-config-files/* /etc/openvpn/
+<span class="nb">cd</span> /etc/openvpn
+sudo gunzip server.conf.gz
+sudo cp server.conf server.conf.bak
+
+<span class="c1"># 进入/etc/openvpn/easy-rsa目录配置服务器证书</span>
+<span class="nb">source</span> ./vars                       <span class="c1"># vars可以配置证书信息，也可以用默认的</span>
+./clean-all
+./build-dh                      <span class="c1"># 生成dh pem文件</span>
+./pkitool --initca              <span class="c1"># 生成ca根证书</span>
+./pkitool --server myserver <span class="c1"># 生成server证书</span>
+./pkitool client1               <span class="c1"># 生成客户端证书，这里可以不需要，LDAP为密码认证</span>
+./pkitool --pass client2        <span class="c1"># 签名客户端证书</span>
+</pre></div>
+
+
+<p>按下面的内容配置server.conf</p>
+<div class="highlight"><pre><span></span>port 1195
+dev tun
+mode server
+tls-server
+ca keys/ca.crt
+cert keys/server.crt
+key keys/server.key
+dh keys/dh1024.pem
+ifconfig 10.9.0.1 10.9.0.2
+ifconfig-pool 10.9.0.4 10.9.0.255
+push &quot;route 10.9.0.1 255.255.255.255&quot;
+push &quot;route 10.16.16.0 255.255.255.0&quot;
+keepalive 10 60
+inactive 600
+route 10.9.0.0 255.255.255.0
+user openvpn
+group openvpn
+persist-tun
+persist-key
+verb 4
+plugin /usr/lib/openvpn/plugin/lib/openvpn-auth-ldap.so &quot;/etc/openvpn/auth/ldap.conf&quot;
+client-cert-not-required
+</pre></div>
+
+
+<h2>根据下面示例配置AD认证 /etc/openvpn/auth/ldap.conf</h2>
+<div class="highlight"><pre><span></span># 一般使用AD访问的时候可以不用配置TLS加密，所以TLS相关的项目都可以注释掉，保留TLS关闭项
+<span class="nt">&lt;LDAP&gt;</span>
+# LDAP server URL
+URL ldap://dc-test-1.test.com:389
+# Bind DN (If your LDAP server doesn&#39;t support anonymous binds)
+#BindDN uid=admin,ou=Users,dc=test,dc=com
+BindDN admin@test.com
+
+# Bind Password
+Password humus
+
+# Network timeout (in seconds)
+Timeout 15
+
+# Enable Start TLS
+# If not use TLS，please keep this.
+TLSEnable no
+
+# Follow LDAP Referrals (anonymously)
+FollowReferrals yes
+
+# TLS CA Certificate File
+TLSCACertFile /usr/local/etc/ssl/ca.pem
+
+# TLS CA Certificate Directory
+TLSCACertDir /etc/ssl/certs
+
+# Client Certificate and key
+# If TLS client authentication is required
+TLSCertFile /usr/local/etc/ssl/client-cert.pem
+TLSKeyFile /usr/local/etc/ssl/client-key.pem
+
+# Cipher Suite
+# The defaults are usually fine here
+# TLSCipherSuite ALL:!ADH:@STRENGTH
+<span class="nt">&lt;/LDAP&gt;</span>
+
+<span class="nt">&lt;Authorization&gt;</span>
+# Base DN
+#BaseDN &quot;CN=Users,DC=test,DC=com&quot;
+BaseDN &quot;CN=Users,DC=test,DC=com&quot;
+
+# User Search Filter
+#SearchFilter &quot;(<span class="err">&amp;</span>(uid=%u)(accountStatus=active))&quot;
+#SearchFilter &quot;(<span class="err">&amp;</span>(sAMAccountName=%u)(msNPAllowDialin=TRUE))&quot;
+SearchFilter &quot;(<span class="err">&amp;</span>(sAMAccountName=%u))&quot;
+
+# Require Group Membership
+RequireGroup true
+
+# Add non-group members to a PF table (disabled)
+#PFTable ips_vpn_users
+
+<span class="nt">&lt;Group&gt;</span>
+BaseDN &quot;CN=Users,DC=test,DC=com&quot;
+SearchFilter &quot;(cn=vpn-users)&quot;
+MemberAttribute &quot;member&quot;
+# Add group members to a PF table (disabled)
+#PFTable ips_vpn_eng
+<span class="nt">&lt;/Group&gt;</span>
+<span class="nt">&lt;/Authorization&gt;</span>
+</pre></div>
+
+
+<p>开启openvpn server服务</p>
+<div class="highlight"><pre><span></span><span class="c1"># 编辑/etc/default/openvpn文件，添加AUTOSTART=&quot;server&quot;，openvpn服务器配置为server.conf</span>
+<span class="c1"># 就可以使用服务管理来控制openvpn服务器了</span>
+
+service openvpn start
+</pre></div>
+
+
+<h2>客户端配置文件，需要下载服务器的ca.crt到配置文件同一目录</h2>
+<div class="highlight"><pre><span></span>float
+port 1195
+dev tun
+remote 127.43.22.12
+ping 10
+persist-tun
+persist-key
+ca ca.crt
+auth-user-pass
+client
+verb 4
+</pre></div>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="http://puluto.github.io/tag/linux.html">linux</a>
+      <a href="http://puluto.github.io/tag/vpn.html">vpn</a>
+    </p>
+  </div>
+
+
+
+
+</article>
+
+    <footer>
+<p>
+  &copy; Puluto 2016 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63906522-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Thinking ",
+  "url" : "http://puluto.github.io",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>
