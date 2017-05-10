@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="http://puluto.github.io/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="http://puluto.github.io/static/custom.css" rel="stylesheet">
+
+    <link href="http://puluto.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Thinking Atom">
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Puluto" />
+<meta name="description" content="Openstack mitaka升级ocata 环境介绍 Openstack Controller： ubuntu 16.04 Openstack Compute： centos 7.3 组件包括：Keystone，glance，neutron，nova，cinder 本次升级openstack不是在线热升级，升级期间某些服务不可用，没具体测试 预先准备 备份mitaka数据库和配置文件,还有apache2的wsgi配置文件 mkdir -p /tmp/openstack_mitaka_backup/config/ mysqldump --single-transaction --all-databases -uroot -p > \ /tmp/openstack_mitaka_backup/openstack_db_mitaka_backup.sql for i in "nova glance cinder neutron keystone openstack-dashboard apache2"; \ do …" />
+<meta name="keywords" content="python, openstack, 私有云">
+<meta property="og:site_name" content="Thinking"/>
+<meta property="og:title" content="Openstack mitaka升级ocata"/>
+<meta property="og:description" content="Openstack mitaka升级ocata 环境介绍 Openstack Controller： ubuntu 16.04 Openstack Compute： centos 7.3 组件包括：Keystone，glance，neutron，nova，cinder 本次升级openstack不是在线热升级，升级期间某些服务不可用，没具体测试 预先准备 备份mitaka数据库和配置文件,还有apache2的wsgi配置文件 mkdir -p /tmp/openstack_mitaka_backup/config/ mysqldump --single-transaction --all-databases -uroot -p > \ /tmp/openstack_mitaka_backup/openstack_db_mitaka_backup.sql for i in "nova glance cinder neutron keystone openstack-dashboard apache2"; \ do …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://puluto.github.io/openstack-mitakasheng-ji-ocata.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2017-05-10 18:56:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://puluto.github.io/author/puluto.html">
+<meta property="article:section" content="私有云"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="openstack"/>
+<meta property="article:tag" content="私有云"/>
+<meta property="og:image" content="">
+
+  <title>Thinking &ndash; Openstack mitaka升级ocata</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://puluto.github.io">
+        <img src="http://puluto.github.io/theme/img/profile.png" alt="Puluto" title="Puluto">
+      </a>
+      <h1><a href="http://puluto.github.io">Puluto</a></h1>
+
+<p>更新很慢的博客，关于自己研究的一些东西</p>
+      <nav>
+        <ul class="list">
+          <li><a href="http://puluto.github.io/pages/about-me.html#about-me">About me</a></li>
+
+          <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-GITHUB" href="https://github.com/puluto" target="_blank"><i class="fa fa-GITHUB"></i></a></li>
+        <li><a class="sc-微博" href="http://weibo.com/u/1871671127" target="_blank"><i class="fa fa-微博"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="http://puluto.github.io">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="http://puluto.github.io/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="openstack-mitakasheng-ji-ocata">Openstack mitaka升级ocata</h1>
+    <p>
+          Posted on 2017-05-10(Wed) in <a href="http://puluto.github.io/category/si-you-yun.html">私有云</a>
+
+
+        &#8226; 2 min read
+    </p>
+  </header>
+
+
+  <div>
+    <h1>Openstack mitaka升级ocata</h1>
+<h2>环境介绍</h2>
+<p>Openstack Controller： ubuntu 16.04
+Openstack Compute：  centos 7.3
+组件包括：Keystone，glance，neutron，nova，cinder</p>
+<p><em>本次升级openstack不是在线热升级，升级期间某些服务不可用，没具体测试</em></p>
+<h2>预先准备</h2>
+<p>备份mitaka数据库和配置文件,还有apache2的wsgi配置文件</p>
+<div class="highlight"><pre><span></span>mkdir -p /tmp/openstack_mitaka_backup/config/
+
+mysqldump --single-transaction --all-databases -uroot -p &gt; <span class="se">\</span>
+    /tmp/openstack_mitaka_backup/openstack_db_mitaka_backup.sql
+
+<span class="k">for</span> i in <span class="s2">&quot;nova glance cinder neutron keystone openstack-dashboard apache2&quot;</span><span class="p">;</span> <span class="se">\</span>
+    <span class="k">do</span> cp -a /etc/<span class="si">${</span><span class="nv">i</span><span class="si">}</span> /tmp/openstack_mitaka_backup/config/ <span class="p">;</span><span class="k">done</span>
+
+<span class="c1"># 安装ocata源</span>
+apt install software-properties-common
+add-apt-repository cloud-archive:ocata
+apt update <span class="o">&amp;&amp;</span> apt install python-openstackclient -y
+</pre></div>
+
+
+<h2>keystone</h2>
+<div class="highlight"><pre><span></span><span class="c1"># 升级keystone的时候一定要安装oslo.middleware，否则会出现rpc调用问题</span>
+apt-get install python-oslo.middleware keystone
+<span class="c1"># 新版本和旧版本的wsgi配置文件名为keystone.conf,需要删除旧的配置，否则启动apache出错</span>
+rm -f /etc/apache2/sites-enabled/wsgi-keystone.conf
+<span class="c1"># 和安装一样执行数据库同步</span>
+su -s /bin/sh -c <span class="s2">&quot;keystone-manage db_sync&quot;</span> keystone
+
+<span class="c1"># 新版本默认使用fernet模式的token，如果更改为新格式需要执行下面的操作</span>
+keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
+
+<span class="c1"># 执行keystone-manage doctor无输出即为正常</span>
+systemctl restart apache2
+</pre></div>
+
+
+<p><em>当前的情况基本上keystone是可用的，不会影响其他服务</em></p>
+<h2>glance</h2>
+<div class="highlight"><pre><span></span>apt install glance -y
+<span class="c1">#glance依赖netifaces的最新版，需要pip更新，测试会出错</span>
+pip install -U netifaces    <span class="c1"># No module named netifaces</span>
+
+su -s /bin/sh -c <span class="s2">&quot;glance-manage db_sync&quot;</span> glance
+su -s /bin/sh -c <span class="s2">&quot;glance-manage db_upgrade&quot;</span> glance
+su -s /bin/sh -c <span class="s2">&quot;glance-manage db_migrate&quot;</span> glance
+
+service glance-registry restart
+service glance-api restart
+
+<span class="c1">#source OS配置环境变量进行测试</span>
+. ~/admin-openrc
+openstack image create <span class="s2">&quot;cirros&quot;</span> --file cirros-0.3.4-x86_64-disk.img --disk-format qcow2 --container-format bare --public
+openstack image show &lt;Image ID&gt;
+</pre></div>
+
+
+<p><em>glance升级完成</em></p>
+<h2>nova</h2>
+<p>NOVA在这次升级中是最复杂的，因为增加了Placement服务和Cellv2，并且是强制的</p>
+<div class="highlight"><pre><span></span>apt install nova-api nova-conductor nova-consoleauth <span class="se">\</span>
+    nova-spiceproxy nova-scheduler nova-placement-api -y
+
+<span class="c1"># 创建cellv2需要的数据库，每个nova节点以及instance都需要映射到相应的cell才能使用</span>
+ CREATE DATABASE nova_cell0<span class="p">;</span>
+ GRANT ALL PRIVILEGES ON nova_cell0.* TO <span class="s1">&#39;nova&#39;</span>@<span class="s1">&#39;localhost&#39;</span> IDENTIFIED BY <span class="s1">&#39;NOVA_DBPASS&#39;</span><span class="p">;</span>
+ GRANT ALL PRIVILEGES ON nova_cell0.* TO <span class="s1">&#39;nova&#39;</span>@<span class="s1">&#39;%&#39;</span> IDENTIFIED BY <span class="s1">&#39;NOVA_DBPASS&#39;</span><span class="p">;</span>
+
+<span class="c1"># 创建placement服务和用户</span>
+. ~/admin-openrc
+openstack user create --domain default --password-prompt placement
+openstack role add --project service --user placement admin
+openstack service create --name placement --description <span class="s2">&quot;Placement API&quot;</span> placement
+openstack endpoint create --region RegionOne placement public http://controller:8778
+openstack endpoint create --region RegionOne placement internal http://controller:8778
+openstack endpoint create --region RegionOne placement admin http://controller:8778
+
+<span class="c1">#Ocata版本更改了连接消息队列的方式，设置新的参数来连接，旧的相关配置全部注释或删除</span>
+<span class="o">[</span>DEFAULT<span class="o">]</span>
+<span class="nv">transport_url</span> <span class="o">=</span> rabbit://openstack:<span class="s1">&#39;RABBITMQ_PASS&#39;</span>@controller
+
+<span class="c1"># 添加placement服务连接</span>
+<span class="o">[</span>placement<span class="o">]</span>
+<span class="nv">os_region_name</span> <span class="o">=</span> RegionOne
+<span class="nv">project_domain_name</span> <span class="o">=</span> Default
+<span class="nv">project_name</span> <span class="o">=</span> service
+<span class="nv">auth_type</span> <span class="o">=</span> password
+<span class="nv">user_domain_name</span> <span class="o">=</span> Default
+<span class="nv">auth_url</span> <span class="o">=</span> http://controller:35357/v3
+<span class="nv">username</span> <span class="o">=</span> placement
+<span class="nv">password</span> <span class="o">=</span> PLACEMENT_PASS
+
+<span class="c1"># 创建cell</span>
+su -s /bin/sh -c <span class="s2">&quot;nova-manage cell_v2 map_cell0&quot;</span> nova
+su -s /bin/sh -c <span class="s2">&quot;nova-manage cell_v2 create_cell --name=cell1 --verbose&quot;</span> nova
+<span class="c1"># 同步数据库</span>
+su -s /bin/sh -c <span class="s2">&quot;nova-manage api_db sync&quot;</span> nova
+su -s /bin/sh -c <span class="s2">&quot;nova-manage db sync&quot;</span> nova
+su -s /bin/sh -c <span class="s2">&quot;nova-manage db online_data_migrations&quot;</span> nova
+su -s /bin/sh -c <span class="s2">&quot;nova-manage db sync&quot;</span> nova
+
+service nova-api restart
+service nova-consoleauth restart
+service nova-scheduler restart
+service nova-conductor restart
+service nova-spiceproxy restart
+
+<span class="c1"># 顺便更新了controller的compute节点</span>
+apt install nova-compute
+service nova-compute restart
+<span class="c1"># 新的compute节点需要使用cell api进行发现才能使用</span>
+su -s /bin/sh -c <span class="s2">&quot;nova-manage cell_v2 discover_hosts --verbose&quot;</span> nova
+<span class="c1"># 配置schedule周期性进行节点的扫描</span>
+<span class="o">[</span>scheduler<span class="o">]</span>
+ <span class="nv">discover_hosts_in_cells_interval</span> <span class="o">=</span> <span class="m">300</span>
+
+ <span class="c1"># 在dashboard可以看到instance，不能查看详情，需要cell映射</span>
+ <span class="c1"># cell0是默认没有进行映射的instance所属，所以需要使用前面创建的cell1进行映射</span>
+ nova-manage cell_v2 list_cells <span class="c1"># 找到cell1的uuid</span>
+ nova-manage cell_v2 map_instances --cell_uuid CELL1_UUID
+</pre></div>
+
+
+<p><em>现在可以升级其他compute节点了，就是直接安装nova-compute后，添加plancement服务配置后重启</em></p>
+<h2>neutron</h2>
+<div class="highlight"><pre><span></span>apt install neutron-server neutron-plugin-ml2 <span class="se">\</span>
+neutron-linuxbridge-agent neutron-dhcp-agent neutron-metadata-agent
+
+<span class="c1"># 配置只修改rabbitmq连接的方式</span>
+su -s /bin/sh -c <span class="s2">&quot;neutron-db-manage --config-file /etc/neutron/neutron.conf \</span>
+<span class="s2">    --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head&quot;</span> neutron
+
+<span class="c1"># 重启所有neutron的服务，可以用service也可以用systemctl</span>
+service neutron-server restart
+service neutron-linuxbridge-agent restart
+service neutron-dhcp-agent restart
+service neutron-metadata-agent restart
+service neutron-l3-agent restart
+</pre></div>
+
+
+<p><em>升级compute节点的agent然后修改rabbitmq连接重启，网络升级完成</em></p>
+<h2>cinder</h2>
+<div class="highlight"><pre><span></span>apt install cinder-api cinder-scheduler cinder-volume
+<span class="c1"># 修改rabbitmq配置后执行</span>
+su -s /bin/sh -c <span class="s2">&quot;cinder-manage db sync&quot;</span> cinder
+su -s /bin/sh -c <span class="s2">&quot;cinder-manage db online_data_migrations&quot;</span> cinder
+
+<span class="c1"># 重启cinder服务</span>
+systemctl restart cinder-scheduler.service
+systemctl restart cinder-volume.service
+systemctl restart apache2
+
+<span class="c1"># 检测cinder服务状态</span>
+cinder-manage service list
+
+<span class="c1"># 如果日志有rpcversion相关的错误是因为有未使用的旧版cinder-volume服务存在数据库中，需要删除</span>
+cinder-manage service remove cinder-volume HOST@SERVICE_NAME
+</pre></div>
+
+
+<p><em>cinder服务升级完成</em></p>
+<h2>dashboard</h2>
+<div class="highlight"><pre><span></span><span class="c1"># dashboard的升级需要先删除旧版再安装新版，否则可能出现莫名的情况</span>
+apt remove openstack-dashboard* -y
+rm -rf /var/lib/openstack-dashboard
+
+apt install openstack-dashboard -y
+<span class="c1"># 由于openstack-dashboard涉及的变更较多，配件项建议使用新版的然后迁移旧版的配置</span>
+<span class="c1"># 重启apache2</span>
+systemctl restart apache2
+</pre></div>
+
+
+<p><em>至此整个升级过程完成</em></p>
+<h2>后记</h2>
+<p>整个升级过程是参照官方的安装文档进行版本对比后操作的，openstack最近几个版本的升级操作还是比较稳定的
+如果需要更好的升级流程，请参照官网的无停机或者短时停机的方式去升级，本次升级基于公司内部云平台进行。</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="http://puluto.github.io/tag/python.html">python</a>
+      <a href="http://puluto.github.io/tag/openstack.html">openstack</a>
+      <a href="http://puluto.github.io/tag/si-you-yun.html">私有云</a>
+    </p>
+  </div>
+
+
+
+
+</article>
+
+    <footer>
+<p>
+  &copy; Puluto 2016 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63906522-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Thinking ",
+  "url" : "http://puluto.github.io",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>

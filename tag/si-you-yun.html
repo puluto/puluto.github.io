@@ -31,7 +31,7 @@
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://puluto.github.io"/>
 
-  <title>Thinking &ndash;     Archives
+  <title>Thinking &ndash;     Tag 私有云
 </title>
 
 </head>
@@ -75,34 +75,46 @@
 
     </nav>
 
-<article class="single">
+
+
+<article>
   <header>
-    <h1>    Archives
-</h1>
+    <h2><a href="http://puluto.github.io/openstack-mitakasheng-ji-ocata.html#openstack-mitakasheng-ji-ocata">Openstack mitaka升级ocata</a></h2>
+    <p>
+          Posted on 2017-05-10(Wed) in <a href="http://puluto.github.io/category/si-you-yun.html">私有云</a>
+
+
+
+        &#8226; 2 min read
+    </p>
   </header>
   <div>
-    <dl>
-      <dt>2017-05-10(Wed)</dt>
-      <dd><a href="http://puluto.github.io/openstack-mitakasheng-ji-ocata.html">Openstack mitaka升级ocata</a></dd>
-      <dt>2017-05-09(Tue)</dt>
-      <dd><a href="http://puluto.github.io/ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn.html">Ubuntu 14.04配置Windows域访问openvpn</a></dd>
-      <dt>2017-04-14(Fri)</dt>
-      <dd><a href="http://puluto.github.io/zai-pythonzhong-ru-he-shi-yong-linuxde-epoll.html">在Python中如何使用Linux的epoll</a></dd>
-      <dt>2016-11-25(Fri)</dt>
-      <dd><a href="http://puluto.github.io/ce-shi-wen-dang.html">测试文档</a></dd>
-      <dt>2015-12-09(Wed)</dt>
-      <dd><a href="http://puluto.github.io/ji-yu-centos6an-zhuang-docker-swarmji-qun.html">基于Centos6安装docker swarm集群</a></dd>
-      <dt>2015-11-26(Thu)</dt>
-      <dd><a href="http://puluto.github.io/dockerchang-yong-ming-ling.html">Docker常用命令</a></dd>
-      <dt>2015-11-25(Wed)</dt>
-      <dd><a href="http://puluto.github.io/linuxxia-scsici-pan-re-cha-ba.html">Linux下SCSI磁盘热插拔</a></dd>
-      <dt>2015-01-03(Sat)</dt>
-      <dd><a href="http://puluto.github.io/celeryjian-jie.html">Celery简介</a></dd>
-      <dt>2015-01-03(Sat)</dt>
-      <dd><a href="http://puluto.github.io/saltstackru-men.html">Saltstack入门</a></dd>
-    </dl>
+      <h1>Openstack mitaka升级ocata</h1>
+<h2>环境介绍</h2>
+<p>Openstack Controller： ubuntu 16.04
+Openstack Compute：  centos 7.3
+组件包括：Keystone，glance，neutron，nova，cinder</p>
+<p><em>本次升级openstack不是在线热升级，升级期间某些服务不可用，没具体测试</em></p>
+<h2>预先准备</h2>
+<p>备份mitaka数据库和配置文件,还有apache2的wsgi配置文件</p>
+<div class="highlight"><pre><span></span>mkdir -p /tmp/openstack_mitaka_backup/config/
+
+mysqldump --single-transaction --all-databases -uroot -p &gt; <span class="se">\</span>
+    /tmp/openstack_mitaka_backup/openstack_db_mitaka_backup.sql
+
+<span class="k">for</span> i in <span class="s2">&quot;nova glance cinder neutron keystone openstack-dashboard apache2&quot;</span><span class="p">;</span> <span class="se">\</span>
+    <span class="k">do …</span></pre></div>
+      <br>
+      <a class="btn" href="http://puluto.github.io/openstack-mitakasheng-ji-ocata.html#openstack-mitakasheng-ji-ocata">    Continue reading
+</a>
   </div>
 </article>
+
+  <div class="pagination">
+  </div>
+
+
+
 
     <footer>
 <p>

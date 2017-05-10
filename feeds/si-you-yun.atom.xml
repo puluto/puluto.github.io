@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Thinking - 私有云</title><link href="http://puluto.github.io/" rel="alternate"></link><link href="http://puluto.github.io/feeds/si-you-yun.atom.xml" rel="self"></link><id>http://puluto.github.io/</id><updated>2017-05-10T18:56:00+08:00</updated><entry><title>Openstack mitaka升级ocata</title><link href="http://puluto.github.io/openstack-mitakasheng-ji-ocata.html" rel="alternate"></link><published>2017-05-10T18:56:00+08:00</published><updated>2017-05-10T18:56:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2017-05-10:/openstack-mitakasheng-ji-ocata.html</id><summary type="html">&lt;h1&gt;Openstack mitaka升级ocata&lt;/h1&gt;
+&lt;h2&gt;环境介绍&lt;/h2&gt;
+&lt;p&gt;Openstack Controller： ubuntu 16.04
+Openstack Compute：  centos 7.3
+组件包括：Keystone，glance，neutron，nova，cinder&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;本次升级openstack不是在线热升级，升级期间某些服务不可用，没具体测试&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;预先准备&lt;/h2&gt;
+&lt;p&gt;备份mitaka数据库和配置文件,还有apache2的wsgi配置文件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mkdir -p /tmp/openstack_mitaka_backup/config/
+
+mysqldump --single-transaction --all-databases -uroot -p &amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    /tmp/openstack_mitaka_backup/openstack_db_mitaka_backup.sql
+
+&lt;span class="k"&gt;for&lt;/span&gt; i in &lt;span class="s2"&gt;&amp;quot;nova glance cinder neutron keystone openstack-dashboard apache2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="k"&gt;do …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;h1&gt;Openstack mitaka升级ocata&lt;/h1&gt;
+&lt;h2&gt;环境介绍&lt;/h2&gt;
+&lt;p&gt;Openstack Controller： ubuntu 16.04
+Openstack Compute：  centos 7.3
+组件包括：Keystone，glance，neutron，nova，cinder&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;本次升级openstack不是在线热升级，升级期间某些服务不可用，没具体测试&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;预先准备&lt;/h2&gt;
+&lt;p&gt;备份mitaka数据库和配置文件,还有apache2的wsgi配置文件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mkdir -p /tmp/openstack_mitaka_backup/config/
+
+mysqldump --single-transaction --all-databases -uroot -p &amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    /tmp/openstack_mitaka_backup/openstack_db_mitaka_backup.sql
+
+&lt;span class="k"&gt;for&lt;/span&gt; i in &lt;span class="s2"&gt;&amp;quot;nova glance cinder neutron keystone openstack-dashboard apache2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="k"&gt;do&lt;/span&gt; cp -a /etc/&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; /tmp/openstack_mitaka_backup/config/ &lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="k"&gt;done&lt;/span&gt;
+
+&lt;span class="c1"&gt;# 安装ocata源&lt;/span&gt;
+apt install software-properties-common
+add-apt-repository cloud-archive:ocata
+apt update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt install python-openstackclient -y
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;keystone&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# 升级keystone的时候一定要安装oslo.middleware，否则会出现rpc调用问题&lt;/span&gt;
+apt-get install python-oslo.middleware keystone
+&lt;span class="c1"&gt;# 新版本和旧版本的wsgi配置文件名为keystone.conf,需要删除旧的配置，否则启动apache出错&lt;/span&gt;
+rm -f /etc/apache2/sites-enabled/wsgi-keystone.conf
+&lt;span class="c1"&gt;# 和安装一样执行数据库同步&lt;/span&gt;
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;keystone-manage db_sync&amp;quot;&lt;/span&gt; keystone
+
+&lt;span class="c1"&gt;# 新版本默认使用fernet模式的token，如果更改为新格式需要执行下面的操作&lt;/span&gt;
+keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
+
+&lt;span class="c1"&gt;# 执行keystone-manage doctor无输出即为正常&lt;/span&gt;
+systemctl restart apache2
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;当前的情况基本上keystone是可用的，不会影响其他服务&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;glance&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt install glance -y
+&lt;span class="c1"&gt;#glance依赖netifaces的最新版，需要pip更新，测试会出错&lt;/span&gt;
+pip install -U netifaces    &lt;span class="c1"&gt;# No module named netifaces&lt;/span&gt;
+
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;glance-manage db_sync&amp;quot;&lt;/span&gt; glance
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;glance-manage db_upgrade&amp;quot;&lt;/span&gt; glance
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;glance-manage db_migrate&amp;quot;&lt;/span&gt; glance
+
+service glance-registry restart
+service glance-api restart
+
+&lt;span class="c1"&gt;#source OS配置环境变量进行测试&lt;/span&gt;
+. ~/admin-openrc
+openstack image create &lt;span class="s2"&gt;&amp;quot;cirros&amp;quot;&lt;/span&gt; --file cirros-0.3.4-x86_64-disk.img --disk-format qcow2 --container-format bare --public
+openstack image show &amp;lt;Image ID&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;glance升级完成&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;nova&lt;/h2&gt;
+&lt;p&gt;NOVA在这次升级中是最复杂的，因为增加了Placement服务和Cellv2，并且是强制的&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt install nova-api nova-conductor nova-consoleauth &lt;span class="se"&gt;\&lt;/span&gt;
+    nova-spiceproxy nova-scheduler nova-placement-api -y
+
+&lt;span class="c1"&gt;# 创建cellv2需要的数据库，每个nova节点以及instance都需要映射到相应的cell才能使用&lt;/span&gt;
+ CREATE DATABASE nova_cell0&lt;span class="p"&gt;;&lt;/span&gt;
+ GRANT ALL PRIVILEGES ON nova_cell0.* TO &lt;span class="s1"&gt;&amp;#39;nova&amp;#39;&lt;/span&gt;@&lt;span class="s1"&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt; IDENTIFIED BY &lt;span class="s1"&gt;&amp;#39;NOVA_DBPASS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+ GRANT ALL PRIVILEGES ON nova_cell0.* TO &lt;span class="s1"&gt;&amp;#39;nova&amp;#39;&lt;/span&gt;@&lt;span class="s1"&gt;&amp;#39;%&amp;#39;&lt;/span&gt; IDENTIFIED BY &lt;span class="s1"&gt;&amp;#39;NOVA_DBPASS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# 创建placement服务和用户&lt;/span&gt;
+. ~/admin-openrc
+openstack user create --domain default --password-prompt placement
+openstack role add --project service --user placement admin
+openstack service create --name placement --description &lt;span class="s2"&gt;&amp;quot;Placement API&amp;quot;&lt;/span&gt; placement
+openstack endpoint create --region RegionOne placement public http://controller:8778
+openstack endpoint create --region RegionOne placement internal http://controller:8778
+openstack endpoint create --region RegionOne placement admin http://controller:8778
+
+&lt;span class="c1"&gt;#Ocata版本更改了连接消息队列的方式，设置新的参数来连接，旧的相关配置全部注释或删除&lt;/span&gt;
+&lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="nv"&gt;transport_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; rabbit://openstack:&lt;span class="s1"&gt;&amp;#39;RABBITMQ_PASS&amp;#39;&lt;/span&gt;@controller
+
+&lt;span class="c1"&gt;# 添加placement服务连接&lt;/span&gt;
+&lt;span class="o"&gt;[&lt;/span&gt;placement&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="nv"&gt;os_region_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; RegionOne
+&lt;span class="nv"&gt;project_domain_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; Default
+&lt;span class="nv"&gt;project_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; service
+&lt;span class="nv"&gt;auth_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; password
+&lt;span class="nv"&gt;user_domain_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; Default
+&lt;span class="nv"&gt;auth_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; http://controller:35357/v3
+&lt;span class="nv"&gt;username&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; placement
+&lt;span class="nv"&gt;password&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; PLACEMENT_PASS
+
+&lt;span class="c1"&gt;# 创建cell&lt;/span&gt;
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;nova-manage cell_v2 map_cell0&amp;quot;&lt;/span&gt; nova
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;nova-manage cell_v2 create_cell --name=cell1 --verbose&amp;quot;&lt;/span&gt; nova
+&lt;span class="c1"&gt;# 同步数据库&lt;/span&gt;
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;nova-manage api_db sync&amp;quot;&lt;/span&gt; nova
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;nova-manage db sync&amp;quot;&lt;/span&gt; nova
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;nova-manage db online_data_migrations&amp;quot;&lt;/span&gt; nova
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;nova-manage db sync&amp;quot;&lt;/span&gt; nova
+
+service nova-api restart
+service nova-consoleauth restart
+service nova-scheduler restart
+service nova-conductor restart
+service nova-spiceproxy restart
+
+&lt;span class="c1"&gt;# 顺便更新了controller的compute节点&lt;/span&gt;
+apt install nova-compute
+service nova-compute restart
+&lt;span class="c1"&gt;# 新的compute节点需要使用cell api进行发现才能使用&lt;/span&gt;
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;nova-manage cell_v2 discover_hosts --verbose&amp;quot;&lt;/span&gt; nova
+&lt;span class="c1"&gt;# 配置schedule周期性进行节点的扫描&lt;/span&gt;
+&lt;span class="o"&gt;[&lt;/span&gt;scheduler&lt;span class="o"&gt;]&lt;/span&gt;
+ &lt;span class="nv"&gt;discover_hosts_in_cells_interval&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;300&lt;/span&gt;
+
+ &lt;span class="c1"&gt;# 在dashboard可以看到instance，不能查看详情，需要cell映射&lt;/span&gt;
+ &lt;span class="c1"&gt;# cell0是默认没有进行映射的instance所属，所以需要使用前面创建的cell1进行映射&lt;/span&gt;
+ nova-manage cell_v2 list_cells &lt;span class="c1"&gt;# 找到cell1的uuid&lt;/span&gt;
+ nova-manage cell_v2 map_instances --cell_uuid CELL1_UUID
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;现在可以升级其他compute节点了，就是直接安装nova-compute后，添加plancement服务配置后重启&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;neutron&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt install neutron-server neutron-plugin-ml2 &lt;span class="se"&gt;\&lt;/span&gt;
+neutron-linuxbridge-agent neutron-dhcp-agent neutron-metadata-agent
+
+&lt;span class="c1"&gt;# 配置只修改rabbitmq连接的方式&lt;/span&gt;
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;neutron-db-manage --config-file /etc/neutron/neutron.conf \&lt;/span&gt;
+&lt;span class="s2"&gt;    --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head&amp;quot;&lt;/span&gt; neutron
+
+&lt;span class="c1"&gt;# 重启所有neutron的服务，可以用service也可以用systemctl&lt;/span&gt;
+service neutron-server restart
+service neutron-linuxbridge-agent restart
+service neutron-dhcp-agent restart
+service neutron-metadata-agent restart
+service neutron-l3-agent restart
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;升级compute节点的agent然后修改rabbitmq连接重启，网络升级完成&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;cinder&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt install cinder-api cinder-scheduler cinder-volume
+&lt;span class="c1"&gt;# 修改rabbitmq配置后执行&lt;/span&gt;
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;cinder-manage db sync&amp;quot;&lt;/span&gt; cinder
+su -s /bin/sh -c &lt;span class="s2"&gt;&amp;quot;cinder-manage db online_data_migrations&amp;quot;&lt;/span&gt; cinder
+
+&lt;span class="c1"&gt;# 重启cinder服务&lt;/span&gt;
+systemctl restart cinder-scheduler.service
+systemctl restart cinder-volume.service
+systemctl restart apache2
+
+&lt;span class="c1"&gt;# 检测cinder服务状态&lt;/span&gt;
+cinder-manage service list
+
+&lt;span class="c1"&gt;# 如果日志有rpcversion相关的错误是因为有未使用的旧版cinder-volume服务存在数据库中，需要删除&lt;/span&gt;
+cinder-manage service remove cinder-volume HOST@SERVICE_NAME
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;cinder服务升级完成&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;dashboard&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# dashboard的升级需要先删除旧版再安装新版，否则可能出现莫名的情况&lt;/span&gt;
+apt remove openstack-dashboard* -y
+rm -rf /var/lib/openstack-dashboard
+
+apt install openstack-dashboard -y
+&lt;span class="c1"&gt;# 由于openstack-dashboard涉及的变更较多，配件项建议使用新版的然后迁移旧版的配置&lt;/span&gt;
+&lt;span class="c1"&gt;# 重启apache2&lt;/span&gt;
+systemctl restart apache2
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;至此整个升级过程完成&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;后记&lt;/h2&gt;
+&lt;p&gt;整个升级过程是参照官方的安装文档进行版本对比后操作的，openstack最近几个版本的升级操作还是比较稳定的
+如果需要更好的升级流程，请参照官网的无停机或者短时停机的方式去升级，本次升级基于公司内部云平台进行。&lt;/p&gt;</content><category term="python"></category><category term="openstack"></category><category term="私有云"></category></entry></feed>

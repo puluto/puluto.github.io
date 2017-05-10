@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://puluto.github.io/</loc>
-<lastmod>2017-05-10T10:07:27-00:00</lastmod>
+<lastmod>2017-05-10T18:58:17-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>http://puluto.github.io/archives.html</loc>
-<lastmod>2017-05-10T10:07:27-00:00</lastmod>
+<lastmod>2017-05-10T18:58:17-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>http://puluto.github.io/tags.html</loc>
-<lastmod>2017-05-10T10:07:27-00:00</lastmod>
+<lastmod>2017-05-10T18:58:17-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>http://puluto.github.io/categories.html</loc>
-<lastmod>2017-05-10T10:07:27-00:00</lastmod>
+<lastmod>2017-05-10T18:58:17-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
@@ -36,6 +36,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <lastmod>2015-01-01T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://puluto.github.io/openstack-mitakasheng-ji-ocata.html</loc>
+<lastmod>2017-05-10T18:56:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
 </url>
 
 <url>
@@ -123,6 +130,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://puluto.github.io/category/si-you-yun.html</loc>
+<lastmod>2017-05-10T18:56:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.6</priority>
+</url>
+
+<url>
 <loc>http://puluto.github.io/category/yun-wei-gong-ju.html</loc>
 <lastmod>2015-01-03T10:20:00+08:06</lastmod>
 <changefreq>daily</changefreq>
@@ -131,7 +145,14 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://puluto.github.io/tag/python.html</loc>
-<lastmod>2017-04-14T21:20:00+08:06</lastmod>
+<lastmod>2017-05-10T18:56:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.6</priority>
+</url>
+
+<url>
+<loc>http://puluto.github.io/tag/si-you-yun.html</loc>
+<lastmod>2017-05-10T18:56:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
@@ -158,6 +179,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://puluto.github.io/tag/ming-ling.html</loc>
+<lastmod>2015-12-09T18:52:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.6</priority>
+</url>
+
+<url>
 <loc>http://puluto.github.io/tag/linux.html</loc>
 <lastmod>2017-05-09T10:04:00+08:06</lastmod>
 <changefreq>daily</changefreq>
@@ -165,8 +193,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://puluto.github.io/tag/ming-ling.html</loc>
-<lastmod>2015-12-09T18:52:00+08:06</lastmod>
+<loc>http://puluto.github.io/tag/openstack.html</loc>
+<lastmod>2017-05-10T18:56:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
@@ -187,7 +215,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://puluto.github.io/author/puluto.html</loc>
-<lastmod>2017-05-09T10:04:00+08:06</lastmod>
+<lastmod>2017-05-10T18:56:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
