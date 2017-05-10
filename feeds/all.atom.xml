@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Thinking</title><link href="http://puluto.github.io/" rel="alternate"></link><link href="http://puluto.github.io/feeds/all.atom.xml" rel="self"></link><id>http://puluto.github.io/</id><updated>2017-05-10T18:56:00+08:00</updated><entry><title>Openstack mitaka升级ocata</title><link href="http://puluto.github.io/openstack-mitakasheng-ji-ocata.html" rel="alternate"></link><published>2017-05-10T18:56:00+08:00</published><updated>2017-05-10T18:56:00+08:00</updated><author><name>Puluto</name></author><id>tag:puluto.github.io,2017-05-10:/openstack-mitakasheng-ji-ocata.html</id><summary type="html">&lt;h1&gt;Openstack mitaka升级ocata&lt;/h1&gt;
 &lt;h2&gt;环境介绍&lt;/h2&gt;
-&lt;p&gt;Openstack Controller： ubuntu 16.04
-Openstack Compute：  centos 7.3
-组件包括：Keystone，glance，neutron，nova，cinder&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Openstack Controller： ubuntu 16.04&lt;/li&gt;
+&lt;li&gt;Openstack Compute：    centos 7.3&lt;/li&gt;
+&lt;li&gt;组件包括：Keystone，glance，neutron，nova，cinder&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;&lt;em&gt;本次升级openstack不是在线热升级，升级期间某些服务不可用，没具体测试&lt;/em&gt;&lt;/p&gt;
 &lt;h2&gt;预先准备&lt;/h2&gt;
 &lt;p&gt;备份mitaka数据库和配置文件,还有apache2的wsgi配置文件&lt;/p&gt;
@@ -15,9 +17,11 @@ mysqldump --single-transaction --all-databases -uroot -p &amp;gt; &lt;span class
 &lt;span class="k"&gt;for&lt;/span&gt; i in &lt;span class="s2"&gt;&amp;quot;nova glance cinder neutron keystone openstack-dashboard apache2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
     &lt;span class="k"&gt;do …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;h1&gt;Openstack mitaka升级ocata&lt;/h1&gt;
 &lt;h2&gt;环境介绍&lt;/h2&gt;
-&lt;p&gt;Openstack Controller： ubuntu 16.04
-Openstack Compute：  centos 7.3
-组件包括：Keystone，glance，neutron，nova，cinder&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Openstack Controller： ubuntu 16.04&lt;/li&gt;
+&lt;li&gt;Openstack Compute：    centos 7.3&lt;/li&gt;
+&lt;li&gt;组件包括：Keystone，glance，neutron，nova，cinder&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;&lt;em&gt;本次升级openstack不是在线热升级，升级期间某些服务不可用，没具体测试&lt;/em&gt;&lt;/p&gt;
 &lt;h2&gt;预先准备&lt;/h2&gt;
 &lt;p&gt;备份mitaka数据库和配置文件,还有apache2的wsgi配置文件&lt;/p&gt;
