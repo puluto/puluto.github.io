@@ -8,9 +8,10 @@ Openstack mitaka升级ocata
 
 环境介绍
 ------------
-Openstack Controller： ubuntu 16.04
-Openstack Compute：	centos 7.3
-组件包括：Keystone，glance，neutron，nova，cinder
+
+* Openstack Controller： ubuntu 16.04
+* Openstack Compute：	centos 7.3
+* 组件包括：Keystone，glance，neutron，nova，cinder
 
 *本次升级openstack不是在线热升级，升级期间某些服务不可用，没具体测试*
 
