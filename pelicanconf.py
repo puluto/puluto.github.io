@@ -23,7 +23,7 @@ PATH = 'content'
 LINKS = (('Pelican', 'http://getpelican.com/'),
 	)
 SOCIAL = (('GITHUB', 'https://github.com/puluto'),
-          ('微博', 'http://weibo.com/u/1871671127'),)
+          ('微博', 'https://weibo.com/u/1871671127'),)
 
 DEFAULT_PAGINATION = 8
 

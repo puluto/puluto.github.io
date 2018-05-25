@@ -10,7 +10,7 @@ import sys
 sys.path.append(os.curdir)
 from pelicanconf import *
 
-SITEURL = 'http://puluto.github.io'
+SITEURL = 'https://puluto.github.io'
 RELATIVE_URLS = False
 FORCE_SSL = False
 
