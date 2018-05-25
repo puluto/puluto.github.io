@@ -4,217 +4,217 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>http://puluto.github.io/</loc>
-<lastmod>2018-05-25T16:48:11-00:00</lastmod>
+<loc>https://puluto.github.io/</loc>
+<lastmod>2018-05-25T16:51:45-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/archives.html</loc>
-<lastmod>2018-05-25T16:48:11-00:00</lastmod>
+<loc>https://puluto.github.io/archives.html</loc>
+<lastmod>2018-05-25T16:51:45-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/tags.html</loc>
-<lastmod>2018-05-25T16:48:11-00:00</lastmod>
+<loc>https://puluto.github.io/tags.html</loc>
+<lastmod>2018-05-25T16:51:45-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/categories.html</loc>
-<lastmod>2018-05-25T16:48:11-00:00</lastmod>
+<loc>https://puluto.github.io/categories.html</loc>
+<lastmod>2018-05-25T16:51:45-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/pages/about-me.html</loc>
+<loc>https://puluto.github.io/pages/about-me.html</loc>
 <lastmod>2015-01-01T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/openstack-mitakasheng-ji-ocata.html</loc>
+<loc>https://puluto.github.io/openstack-mitakasheng-ji-ocata.html</loc>
 <lastmod>2017-05-10T18:56:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn.html</loc>
+<loc>https://puluto.github.io/ubuntu-1404pei-zhi-windowsyu-fang-wen-openvpn.html</loc>
 <lastmod>2017-05-09T10:04:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/zai-pythonzhong-ru-he-shi-yong-linuxde-epoll.html</loc>
+<loc>https://puluto.github.io/zai-pythonzhong-ru-he-shi-yong-linuxde-epoll.html</loc>
 <lastmod>2017-04-14T21:20:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/ce-shi-wen-dang.html</loc>
+<loc>https://puluto.github.io/ce-shi-wen-dang.html</loc>
 <lastmod>2016-11-25T18:52:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/ji-yu-centos6an-zhuang-docker-swarmji-qun.html</loc>
+<loc>https://puluto.github.io/ji-yu-centos6an-zhuang-docker-swarmji-qun.html</loc>
 <lastmod>2015-12-09T18:52:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/dockerchang-yong-ming-ling.html</loc>
+<loc>https://puluto.github.io/dockerchang-yong-ming-ling.html</loc>
 <lastmod>2015-11-26T18:52:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/linuxxia-scsici-pan-re-cha-ba.html</loc>
+<loc>https://puluto.github.io/linuxxia-scsici-pan-re-cha-ba.html</loc>
 <lastmod>2015-11-25T18:52:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/celeryjian-jie.html</loc>
+<loc>https://puluto.github.io/celeryjian-jie.html</loc>
 <lastmod>2015-01-03T10:20:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/saltstackru-men.html</loc>
+<loc>https://puluto.github.io/saltstackru-men.html</loc>
 <lastmod>2015-01-03T10:20:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/category/bing-fa-bian-cheng.html</loc>
+<loc>https://puluto.github.io/category/bing-fa-bian-cheng.html</loc>
 <lastmod>2017-04-14T21:20:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/category/linuxji-qiao.html</loc>
+<loc>https://puluto.github.io/category/linuxji-qiao.html</loc>
 <lastmod>2017-05-09T10:04:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/category/ren-wu-diao-du.html</loc>
+<loc>https://puluto.github.io/category/ren-wu-diao-du.html</loc>
 <lastmod>2015-01-03T10:20:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/category/rong-qi-ji-zhu.html</loc>
+<loc>https://puluto.github.io/category/rong-qi-ji-zhu.html</loc>
 <lastmod>2015-12-09T18:52:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/category/si-you-yun.html</loc>
+<loc>https://puluto.github.io/category/si-you-yun.html</loc>
 <lastmod>2017-05-10T18:56:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/category/yun-wei-gong-ju.html</loc>
+<loc>https://puluto.github.io/category/yun-wei-gong-ju.html</loc>
 <lastmod>2015-01-03T10:20:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/tag/python.html</loc>
+<loc>https://puluto.github.io/tag/python.html</loc>
 <lastmod>2017-05-10T18:56:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/tag/si-you-yun.html</loc>
+<loc>https://puluto.github.io/tag/si-you-yun.html</loc>
 <lastmod>2017-05-10T18:56:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/tag/saltstack.html</loc>
+<loc>https://puluto.github.io/tag/saltstack.html</loc>
 <lastmod>2015-01-03T10:20:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/tag/hotplug.html</loc>
+<loc>https://puluto.github.io/tag/hotplug.html</loc>
 <lastmod>2015-11-25T18:52:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/tag/celery.html</loc>
+<loc>https://puluto.github.io/tag/celery.html</loc>
 <lastmod>2015-01-03T10:20:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/tag/ming-ling.html</loc>
+<loc>https://puluto.github.io/tag/ming-ling.html</loc>
 <lastmod>2015-12-09T18:52:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/tag/linux.html</loc>
+<loc>https://puluto.github.io/tag/linux.html</loc>
 <lastmod>2017-05-09T10:04:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/tag/openstack.html</loc>
+<loc>https://puluto.github.io/tag/openstack.html</loc>
 <lastmod>2017-05-10T18:56:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/tag/docker.html</loc>
+<loc>https://puluto.github.io/tag/docker.html</loc>
 <lastmod>2015-12-09T18:52:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/tag/vpn.html</loc>
+<loc>https://puluto.github.io/tag/vpn.html</loc>
 <lastmod>2017-05-09T10:04:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>http://puluto.github.io/author/puluto.html</loc>
+<loc>https://puluto.github.io/author/puluto.html</loc>
 <lastmod>2017-05-10T18:56:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
