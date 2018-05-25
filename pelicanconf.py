@@ -7,7 +7,7 @@ sys.setdefaultencoding("utf-8")
 
 AUTHOR = u'Puluto'
 SITENAME = u'Thinking'
-SITEURL = 'http://puluto.github.io'
+SITEURL = 'https://puluto.github.io'
 SITETITLE = AUTHOR
 
 TIMEZONE = 'Asia/Shanghai'
